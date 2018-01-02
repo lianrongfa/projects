@@ -6,7 +6,11 @@
 
     <groupId>cn.lianrf</groupId>
     <artifactId>projects</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>javaexample</module>
+    </modules>
 
 
 </project>
