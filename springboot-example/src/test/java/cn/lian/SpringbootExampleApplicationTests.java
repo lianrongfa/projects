@@ -1,4 +1,4 @@
-package com.lian.springbootexample;
+package cn.lian;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
