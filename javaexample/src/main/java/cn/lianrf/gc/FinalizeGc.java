@@ -2,6 +2,8 @@ package cn.lianrf.gc;
 
 /**
  * Created by lianrongfa on 2018/1/9.
+ *
+ * finalize方法已经不推荐，建议忘记此方法
  */
 public class FinalizeGc {
 
