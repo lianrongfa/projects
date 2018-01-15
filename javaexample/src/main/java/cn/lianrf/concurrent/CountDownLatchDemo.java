@@ -7,7 +7,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CountDownLatchDemo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        while(true){
+            Thread.sleep(5000);
+        }
 
     }
 

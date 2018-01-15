@@ -12,7 +12,7 @@ public class GcObjectSize {
 
     public static void main(String[] args) {
         byte [] allocation=allocation=new byte[4*_1MB];
-        /*byte [] allocation1=allocation=new byte[4*_1MB];
-        byte [] allocation2=allocation=new byte[4*_1MB];*/
+        byte [] allocation1=allocation=new byte[4*_1MB];
+        byte [] allocation2=allocation=new byte[4*_1MB];
     }
 }
