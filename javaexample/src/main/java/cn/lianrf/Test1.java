@@ -1,9 +1,8 @@
 package cn.lianrf;
 
+import cn.lianrf.gc.Aa;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.beanutils.PropertyUtilsBean;
-import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -21,9 +20,9 @@ public class Test1 {
 
         Aa a1=new Aa();
         a1.setName("haha");
-        a1.setUuid("H123");
-        Aa a2=new Aa();
 
+        Aa a2=new Aa();
+        a2.setUuid("H123");
         //BeanUtils.copyProperties(a2,a1);
         try {
             PropertyUtils.copyProperties(a2,a1);
@@ -37,36 +36,7 @@ public class Test1 {
 
         System.out.println(a1.toString());
         System.out.println(a2.toString());
-        System.out.println(a2.getClass());
-        System.out.println(a1.getClass());
+
     }
 }
 
-class Aa {
-    private String uuid;
-    private String name;
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Aa{" +
-                "uuid='" + uuid + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
-}
