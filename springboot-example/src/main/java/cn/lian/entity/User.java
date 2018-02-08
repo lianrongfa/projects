@@ -1,4 +1,4 @@
-package main.java.cn.lian.entity;
+package cn.lian.entity;
 
 import java.util.Date;
 

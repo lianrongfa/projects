@@ -19,6 +19,6 @@ public class HelloSpringBoot {
     public User hello(){
         service.insert();
         System.out.println("hello111!");
-        return new User("jfwogwie","12312");
+        return new User();
     }
 }
