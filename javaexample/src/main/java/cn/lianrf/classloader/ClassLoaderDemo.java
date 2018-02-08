@@ -5,8 +5,14 @@ package cn.lianrf.classloader;
  */
 public class ClassLoaderDemo {
     public static void main(String[] args) {
-        ClassLoader classLoader = ClassLoaderDemo.class.getClassLoader();
-        ClassLoader parent = classLoader.getParent();
-        ClassLoader parent1 = parent.getParent();
+        System.out.println(Aa.aa);
     }
+}
+class Aa{
+    public static  String aa="1";
+
+    static {
+        System.out.println("im init");
+    }
+
 }

@@ -1,4 +1,4 @@
-package cn.lian.entity;
+package main.java.cn.lian.entity;
 
 import java.util.Date;
 
@@ -12,14 +12,6 @@ public class User {
     private Date birthday;
 
     private String student;
-
-    public User() {
-    }
-
-    public User(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public String getId() {
         return id;
@@ -60,6 +52,4 @@ public class User {
     public void setStudent(String student) {
         this.student = student == null ? null : student.trim();
     }
-
-
 }

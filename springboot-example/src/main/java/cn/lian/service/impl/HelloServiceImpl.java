@@ -23,5 +23,6 @@ public class HelloServiceImpl implements HelloSerivce{
         User user = new User();
         user.setId(UUID.randomUUID().toString().replace("-",""));
         mapper.insert(user);
+        int i = 1 / 0;
     }
 }

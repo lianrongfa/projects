@@ -33,3 +33,11 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+#日志
+logging:
+  level:
+    cn:
+      lian:
+        mapper: debug
+  file: C:\Users\lianrongfa\Desktop\log.log

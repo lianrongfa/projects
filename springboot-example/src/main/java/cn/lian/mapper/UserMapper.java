@@ -1,6 +1,6 @@
-package cn.lian.mapper;
+package main.java.cn.lian.mapper;
 
-import cn.lian.entity.User;
+import main.java.cn.lian.entity.User;
 
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
@@ -14,6 +14,4 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
-
-
 }
