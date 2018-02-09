@@ -1,4 +1,4 @@
-package cn.lian.core.jdbc;
+package cn.lian.core.datasource;
 
 /**
  * Created by lianrongfa on 2018/2/5.

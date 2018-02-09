@@ -7,20 +7,19 @@ import org.junit.Test;
  */
 public class Hello {
 
-
-
-    static{
-        System.out.println("Hello init");
-    }
-    final static Aa a=new Aa();
     public static void main(String args[]){
-
+        Aa aa = new Aa();
+        aa.create2();
     }
 
 }
 
 class Aa{
-    static{
-        System.out.println("Aa init");
+    public Aa create1(){
+        return new Aa();
+    }
+
+    public Aa create2(){
+        return create1();
     }
 }

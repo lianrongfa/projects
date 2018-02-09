@@ -3,26 +3,20 @@ server:
 
 spring:
   datasource:
-    name: bd1
-    url: jdbc:mysql://127.0.0.1:3306/learn
-    username: root
-    password: root
-    # \u4F7F\u7528druid\u6570\u636E\u6E90
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    filters: stat
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
+    masterDataSource:
+      name: masterDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/learn
+      port: 3306
+      username: root
+      password: root
+    slaveDataSource:
+      name: slaveDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/learn2
+      port: 3306
+      username: root
+      password: root
 mybatis:
   mapper-locations: classpath*:mapping/*.xml
   type-aliases-package: cn.lian.entity

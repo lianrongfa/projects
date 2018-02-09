@@ -1,4 +1,5 @@
-package cn.lian.core.jdbc;
+package cn.lian.core.datasource;
+
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
@@ -23,6 +24,7 @@ public class DynamicDatasource extends AbstractRoutingDataSource{
             if(name==null||name=="")
                 setDataSource(DataSourceEnum.getDefault());
         name = DATA_SOURCE_KEY.get();
+
         return name;
     }
     public static void clearDataSourceKey(){
