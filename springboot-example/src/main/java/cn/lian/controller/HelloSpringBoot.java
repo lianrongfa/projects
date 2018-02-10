@@ -1,5 +1,7 @@
 package cn.lian.controller;
 
+import cn.lian.core.datasource.DataSourceEnum;
+import cn.lian.core.datasource.DynamicDatasource;
 import cn.lian.entity.User;
 import cn.lian.service.HelloSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,18 @@ public class HelloSpringBoot {
     @Autowired
     private HelloSerivce service;
 
-    @RequestMapping("/hello")
-    public User hello(){
+    @RequestMapping("/hello1")
+    public User hello1(){
         service.insert();
         System.out.println("hello111!");
-        return new User("jfwogwie","12312");
+        return new User();
+    }
+
+    @RequestMapping("/hello2")
+    public User hello2(){
+        DynamicDatasource.setDataSource(DataSourceEnum.SLAVE.getName());
+        service.insert();
+        System.out.println("hello111!");
+        return new User();
     }
 }

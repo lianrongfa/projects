@@ -1,11 +1,9 @@
-package cn.lian.entity;
-
-import org.junit.Test;
+package main.cn.lian.entity;
 
 import java.util.Date;
 
 public class User {
-    private String id;//这是id
+    private String id;
 
     private String name;
 
@@ -53,19 +51,5 @@ public class User {
 
     public void setStudent(String student) {
         this.student = student == null ? null : student.trim();
-    }
-
-    /**
-     * Created by lianrongfa on 2018/2/5.
-     */
-    public static class TestApp {
-
-        @Test
-        public void test2(){
-
-
-
-        }
-
     }
 }

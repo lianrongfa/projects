@@ -32,8 +32,11 @@ public class StringTest {
     }
 }
 enum Aa{
-    ff,ff1;
+    ff{public int get(){
+        return 0;
+    }},ff1;
 
+    private int i;
     public static final String SEQUENCE_NAME="HD_SQ_N_CY";
 }
 class Hi{

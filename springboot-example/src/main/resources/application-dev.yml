@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    masterDataSource:
+      name: masterDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/learn
+      port: 3306
+      username: root
+      password: root
+    slaveDataSource:
+      name: slaveDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/learn2
+      port: 3306
+      username: root
+      password: root
+mybatis:
+  mapper-locations: classpath*:mapping/*.xml
+  type-aliases-package: cn.lian.entity
+
+#pagehelper\u5206\u9875\u63D2\u4EF6
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#日志
+logging:
+  level:
+    cn:
+      lian:
+        mapper: debug
+  file: C:\Users\lianrongfa\Desktop\log.log

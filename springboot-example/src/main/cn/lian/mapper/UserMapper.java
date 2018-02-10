@@ -1,6 +1,6 @@
-package cn.lian.mapper;
+package main.cn.lian.mapper;
 
-import cn.lian.entity.User;
+import main.cn.lian.entity.User;
 
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
