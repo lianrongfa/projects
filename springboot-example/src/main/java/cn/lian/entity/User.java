@@ -3,7 +3,7 @@ package cn.lian.entity;
 import java.util.Date;
 
 public class User {
-    private String id;
+    private String id;//这是id
 
     private String name;
 
