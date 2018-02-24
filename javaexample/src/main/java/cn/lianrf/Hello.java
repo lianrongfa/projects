@@ -2,24 +2,31 @@ package cn.lianrf;
 
 import org.junit.Test;
 
+import java.io.*;
+
 /**
  * Created by lianrongfa on 2018/1/2.
  */
 public class Hello {
+    public static void main(String[] args) throws Exception {
+        Student stu=new Student();
 
-    public static void main(String args[]){
-        Aa aa = new Aa();
-        aa.create2();
+        ByteArrayOutputStream byt=new ByteArrayOutputStream();
+
+        ObjectOutputStream obj=new ObjectOutputStream(byt);
+
+        obj.writeObject(stu);
+
+        byte[] bytes=byt.toByteArray();
+        System.out.println(bytes);
+
+
+        ByteArrayInputStream byteInt=new ByteArrayInputStream(bytes);
+        ObjectInputStream objInt=new ObjectInputStream(byteInt);
+        Student stu2=new Student();
+        stu2=(Student)objInt.readObject();
+
+        System.out.println(stu2);
     }
-
 }
 
-class Aa{
-    public Aa create1(){
-        return new Aa();
-    }
-
-    public Aa create2(){
-        return create1();
-    }
-}

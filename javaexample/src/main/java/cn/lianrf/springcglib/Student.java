@@ -1,4 +1,4 @@
-package cn.lianrf.cglib;
+package cn.lianrf.springcglib;
 
 import org.springframework.stereotype.Component;
 

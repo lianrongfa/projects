@@ -1,4 +1,4 @@
-package cn.lianrf.cglib;
+package cn.lianrf.springcglib;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class AopClass {
 
-    @Pointcut("@annotation(cn.lianrf.cglib.MyAop)")
+    @Pointcut("@annotation(cn.lianrf.springcglib.MyAop)")
     public void ipoint(){
 
     }

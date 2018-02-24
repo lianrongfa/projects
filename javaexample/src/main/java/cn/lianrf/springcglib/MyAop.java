@@ -1,4 +1,4 @@
-package cn.lianrf.cglib;
+package cn.lianrf.springcglib;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
