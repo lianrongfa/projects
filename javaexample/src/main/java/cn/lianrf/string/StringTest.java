@@ -8,8 +8,14 @@ import java.util.HashMap;
  */
 public class StringTest {
     public static void main(String[] args) {
-        HashMap hashMap = new HashMap();
-        hashMap.put("1","2");
+        int a=1;
+        if(a==2){}
+        else if(a==1){
+            System.out.println("11");
+        }else if(a<2){
+            System.out.println("1");
+        }
+
     }
 
     private static void test1() {
