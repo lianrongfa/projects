@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import sun.misc.ProxyGenerator;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -43,6 +44,10 @@ public class DataSourceConfig {
 
     @Bean("dynamicDataSource")
     public DynamicDatasource dynamicDataSource(){
+
+        //ProxyGenerator.generateProxyClass();
+
+        System.out.println("className:"+this);
         DynamicDatasource dynamicDatasource = new DynamicDatasource();
 
         Map<Object, Object> dataSourceMap = new HashMap<>(2);

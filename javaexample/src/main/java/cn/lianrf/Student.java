@@ -6,22 +6,15 @@ import java.io.Serializable;
  * Created by lianrongfa on 2018/2/24.
  */
 public class Student implements Serializable{
-    private String a;
-    private String b;
-
-    public String getA() {
-        return a;
+    public void test(){
+        new Thread(()->{
+            System.out.println();
+        });
     }
 
-    public void setA(String a) {
-        this.a = a;
-    }
-
-    public String getB() {
-        return b;
-    }
-
-    public void setB(String b) {
-        this.b = b;
+    public static void main(String[] args) {
+        String s="fwfwe.gweg.weg.gwegwe";
+        String[] split=s.split("\\.");
+        System.out.println(split[0]);
     }
 }

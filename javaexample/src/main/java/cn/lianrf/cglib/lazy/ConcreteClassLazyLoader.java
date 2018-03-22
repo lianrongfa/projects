@@ -8,6 +8,9 @@ import net.sf.cglib.proxy.LazyLoader;
 public class ConcreteClassLazyLoader implements LazyLoader{
     @Override
     public Object loadObject() throws Exception {
-        return null;
+        System.out.println("before LazyLoader...");
+        PropertyBean propertyBean = new PropertyBean();
+        System.out.println("after LazyLoader...");
+        return propertyBean;
     }
 }
