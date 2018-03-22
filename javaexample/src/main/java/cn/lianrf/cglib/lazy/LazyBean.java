@@ -7,6 +7,8 @@ package cn.lianrf.cglib.lazy;
  * Created by lianrongfa on 2018/2/24.
  */
 
+import net.sf.cglib.proxy.Enhancer;
+
 /**
  * Dispatcher和LazyLoader的区别在于：LazyLoader只在第一次访问延迟加载属性时触发代理类回调方法，
  * 而Dispatcher在每次访问延迟加载属性时都会触发代理类回调方法。
@@ -22,19 +24,23 @@ public class LazyBean {
     public LazyBean(int age, String name) {
         this.age = age;
         this.name = name;
-        this.propertyBean=null;
-        this.propertyBeanDispatcher=null;
+        this.propertyBean=createLazyBean();
+        this.propertyBeanDispatcher=createDispacher();
     }
 
 
     public PropertyBean createLazyBean(){
-        new ConcreteClassLazyLoader();
-        return null;
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(PropertyBean.class);
+        PropertyBean bean = (PropertyBean) enhancer.create(PropertyBean.class, new ConcreteClassLazyLoader());
+        return bean;
     }
 
     public PropertyBean createDispacher(){
-        new ConcreteClassDispatcher();
-        return null;
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(PropertyBean.class);
+        PropertyBean bean = (PropertyBean) enhancer.create(PropertyBean.class, new ConcreteClassDispatcher());
+        return bean;
     }
 
     public int getAge() {

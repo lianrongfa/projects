@@ -7,6 +7,10 @@ public class PropertyBean {
     private String key;
     private Object value;
 
+    public PropertyBean() {
+        System.out.println("init..");
+    }
+
     public String getKey() {
         return key;
     }
