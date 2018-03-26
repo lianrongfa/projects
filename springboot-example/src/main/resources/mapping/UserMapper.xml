@@ -24,7 +24,7 @@
   <insert id="insert" parameterType="cn.lian.entity.User">
     insert into t_user (id, name, age, 
       birthday, student)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
       #{birthday,jdbcType=DATE}, #{student,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.lian.entity.User">

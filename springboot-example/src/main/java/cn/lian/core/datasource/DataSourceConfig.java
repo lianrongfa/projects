@@ -24,7 +24,7 @@ public class DataSourceConfig {
 
     /**
      * masterDataSource
-     * @Primary 注解用于标识默认使用的 DataSource Bean，因为有5个 DataSource Bean，该注解可用于 master
+     * @Primary 注解用于标识默认使用的 DataSource Bean，因为有2个 DataSource Bean，该注解可用于 master
      * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用
      * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性
      * @return data source
