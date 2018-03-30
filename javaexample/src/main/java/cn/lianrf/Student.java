@@ -29,7 +29,7 @@ public class Student implements Serializable{
 
     }
 
-    public static void main1(TestFunction function) {
+        System.out.println(split[0]);p
         Integer a=null;
         function.test(a);
     }

@@ -1,4 +1,4 @@
-package cn.lian.core.datasource;
+package cn.lian.core.config.datasource;
 
 /**
  * Created by lianrongfa on 2018/2/5.

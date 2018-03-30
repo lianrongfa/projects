@@ -1,4 +1,4 @@
-package cn.lian.core.datasource;
+package cn.lian.core.config.datasource;
 
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;

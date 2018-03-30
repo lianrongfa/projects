@@ -98,18 +98,6 @@
                     <artifactId>mybatis-spring-boot-starter</artifactId>
                     <groupId>org.mybatis.spring.boot</groupId>
                 </exclusion>
-				<exclusion>
-					<artifactId>mybatis-spring-boot-starter</artifactId>
-					<groupId>org.mybatis.spring.boot</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>mybatis-spring-boot-starter</artifactId>
-					<groupId>org.mybatis.spring.boot</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>mybatis-spring-boot-starter</artifactId>
-					<groupId>org.mybatis.spring.boot</groupId>
-				</exclusion>
 			</exclusions>
         </dependency>
 		<!-- alibaba的druid数据库连接池 -->
@@ -122,14 +110,6 @@
 					<artifactId>druid</artifactId>
 					<groupId>com.alibaba</groupId>
 				</exclusion>
-				<exclusion>
-					<artifactId>druid</artifactId>
-					<groupId>com.alibaba</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>druid</artifactId>
-					<groupId>com.alibaba</groupId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<!--<dependency>
@@ -137,6 +117,12 @@
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>RELEASE</version>
 		</dependency>-->
+		<!--spring-session
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+		-->
 	</dependencies>
 
 	<build>
