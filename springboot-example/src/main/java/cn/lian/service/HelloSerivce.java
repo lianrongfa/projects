@@ -5,4 +5,5 @@ package cn.lian.service;
  */
 public interface HelloSerivce {
     public void insert();
+    public void testTransaction();
 }

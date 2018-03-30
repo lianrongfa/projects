@@ -19,7 +19,7 @@ public class HelloSpringBoot {
 
     @RequestMapping("/hello1")
     public User hello1(){
-        service.insert();
+        service.testTransaction();
         System.out.println("hello111!");
         return new User();
     }
