@@ -21,4 +21,9 @@ public class HtmlController {
         model.addAttribute("name", "Dear");
         return "hello";
     }
+
+    @RequestMapping("/bootstrap")
+    public String bootstrap() {
+        return "bootstrap";
+    }
 }
