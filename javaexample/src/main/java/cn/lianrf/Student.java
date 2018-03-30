@@ -13,8 +13,7 @@ public class Student implements Serializable{
     }
 
     public static void main(String[] args) {
-        String s="fwfwe.gweg.weg.gwegwe";
-        String[] split=s.split("\\.");
-        System.out.println(split[0]);
+        int i=1;
+        i++;
     }
 }

@@ -1,7 +1,7 @@
 package cn.lian.controller;
 
-import cn.lian.core.datasource.DataSourceEnum;
-import cn.lian.core.datasource.DynamicDatasource;
+import cn.lian.core.config.datasource.DataSourceEnum;
+import cn.lian.core.config.datasource.DynamicDatasource;
 import cn.lian.entity.User;
 import cn.lian.service.HelloSerivce;
 import org.springframework.beans.factory.annotation.Autowired;

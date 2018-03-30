@@ -1,20 +1,17 @@
-package cn.lian.core.schedule;
+package cn.lian.core.config.schedule;
 
 import cn.lian.core.util.SpringBeanUtils;
 import cn.lian.entity.User;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * Created by lianrongfa on 2018/3/23.
+ * spring集成的简易定时器
  */
 
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class SchedulingConfig {
 
 
@@ -27,8 +24,8 @@ public class SchedulingConfig {
 
         System.out.println("name"+schedu);
     }
-    @Bean("schedu")
-    @Scope("request")
+    //@Bean("schedu")
+    //@Scope("request")
     public User buildUser(){
         return new User();
     }

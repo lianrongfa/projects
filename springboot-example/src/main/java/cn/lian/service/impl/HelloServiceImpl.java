@@ -4,6 +4,7 @@ import cn.lian.entity.User;
 import cn.lian.mapper.UserMapper;
 import cn.lian.service.HelloSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,8 @@ public class HelloServiceImpl implements HelloSerivce{
     @Autowired
     private UserMapper mapper;
 
-
+    @Value("${my.values}")//自动注入yml文件中的值
+    private String aa;
     @Transactional
     @Override
     public void insert() {
