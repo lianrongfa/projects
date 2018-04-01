@@ -19,14 +19,14 @@ public class TestTypeHandler extends BaseTypeHandler<String> {
     }
 
     public String getNullableResult(ResultSet resultSet, String s) throws SQLException {
-        return null;
+        return resultSet.getString(s)+"hahaha";
     }
 
     public String getNullableResult(ResultSet resultSet, int i) throws SQLException {
-        return null;
+        return resultSet.getString(i)+"hahaha";
     }
 
     public String getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
-        return null;
+        return callableStatement.getString(i)+"hahaha";
     }
 }
