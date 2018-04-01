@@ -14,7 +14,7 @@ public class Student implements Serializable{
 
     static int  a1=1;
 
-    static TestFunction<String> a=(String s)->{
+    static TestFunction<String> a3=(String s)->{
         s="fwef";
         System.out.println(s);
     };
@@ -29,8 +29,4 @@ public class Student implements Serializable{
 
     }
 
-        System.out.println(split[0]);p
-        Integer a=null;
-        function.test(a);
-    }
 }
