@@ -1,8 +1,8 @@
 package cn.lian.entity;
 
-import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
     private String id;//这是id
@@ -14,6 +14,8 @@ public class User {
     private Date birthday;
 
     private String student;
+
+    private List<Test> testList;
 
     public String getId() {
         return id;
@@ -55,17 +57,11 @@ public class User {
         this.student = student == null ? null : student.trim();
     }
 
-    /**
-     * Created by lianrongfa on 2018/2/5.
-     */
-    public static class TestApp {
+    public List<Test> getTestList() {
+        return testList;
+    }
 
-        @Test
-        public void test2(){
-
-
-
-        }
-
+    public void setTestList(List<Test> testList) {
+        this.testList = testList;
     }
 }
