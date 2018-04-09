@@ -7,6 +7,9 @@
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="student" jdbcType="VARCHAR" property="student" />
+    <!--这里把user的id传过去-->
+    <collection property="testList" fetchType="lazy" column="id" ofType="cn.lian.entity.Test" select="cn.lian.mapper.TestMapper.selectTestByTId">
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, name, age, birthday, student

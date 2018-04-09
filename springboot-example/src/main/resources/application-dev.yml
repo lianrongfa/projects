@@ -19,10 +19,19 @@ spring:
     mode: HTML5
     cache: false
     encoding: utf-8
+  cache:
+    ehcache:
+      config: cache/ehcache.xml
 mybatis:
   mapper-locations: classpath*:mapping/*.xml
   type-aliases-package: cn.lian.entity
   type-handlers-package: cn.lian.typehandler
+  configuration:
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    lazy-load-trigger-methods:
+    default-executor-type: reuse
+
 #pagehelper\u5206\u9875\u63D2\u4EF6
 pagehelper:
   helperDialect: mysql

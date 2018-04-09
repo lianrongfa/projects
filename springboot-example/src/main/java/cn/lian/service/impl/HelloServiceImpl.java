@@ -1,14 +1,18 @@
 package cn.lian.service.impl;
 
+import cn.lian.entity.Test;
 import cn.lian.entity.User;
 import cn.lian.mapper.UserMapper;
 import cn.lian.service.HelloSerivce;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,8 +36,25 @@ public class HelloServiceImpl implements HelloSerivce{
         int i = 1 / 0;
     }
 
-    public void testTransaction(){
-        this.insert();
+    /**
+     * 验证mybatis一级缓存。
+     * spring环境中一级缓存无效，因为其使用SqlSessionTemplate重新生成了session
+     * @param id
+     * @return
+     */
+    public User selectByPrimaryKey(String id){
+        User user = mapper.selectByPrimaryKey(id);
+        User user2 = mapper.selectByPrimaryKey(id);
+        return null;
+    }
+
+    /**
+     * 验证1+N问题
+     */
+    @Lazy
+    public void checkN_1(){
+        User user = mapper.selectByPrimaryKey("1");
+        System.out.println(user);
     }
 
 }

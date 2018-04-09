@@ -5,8 +5,10 @@ package cn.lianrf.thread;
  */
 public class TestApp {
 
+    static ThreadLocal threadLocal=new ThreadLocal();
+
     public static void main(String[] args) {
-        test3();
+        test4();
     }
 
     private static void test1() {
@@ -42,6 +44,22 @@ public class TestApp {
 
         new Thread(()->{
             source.write();
+        }).start();
+    }
+
+    private static void test4(){
+        new Thread(()->{
+            Object o = threadLocal.get();
+        }).start();
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        new Thread(()->{
+            Object o = threadLocal.get();
         }).start();
     }
 }
