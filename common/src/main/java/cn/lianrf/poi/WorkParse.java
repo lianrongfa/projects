@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static cn.lianrf.poi.ParseStatus.*;
+
 /**
  * Created by lianrongfa on 2018/3/22.
  */
@@ -37,7 +39,7 @@ public class WorkParse<T> implements Parse<T>{
      */
     public ParseStatus parseWork(T t) {
         if(t==null){
-            throw new RuntimeException();
+            return new ParseStatus(ParseStatus.CODE_FALSE,"");
         }
         Sheet sheet = workbook.getSheetAt(0);
 
