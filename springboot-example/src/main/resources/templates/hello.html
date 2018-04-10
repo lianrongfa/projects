@@ -4,22 +4,37 @@
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bootstrap 101 Template</title>
-    <link rel="stylesheet" href="../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugin/bootstrap-3.3.7/css/bootstrap.min.css"/>
 
 </head>
 <body>
 <!--/*@thymesVar id="name" type="java.lang.String"*/-->
 <p th:text="'Hello！, ' + ${name} + '!'" >8888</p>
 
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
-...
+<a href="#content" class="sr-only sr-only-focusable">点击</a>
+
 <div class="container" id="content" tabindex="-1">
-     The main page content
+    主div
 </div>
-<script src="../static/plugin/jquery-3.3.1.min.js"></script>
-<script src="../static/plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<button id="testAjax">按钮</button>
+
+<script src="../plugin/jquery-3.3.1.min.js"></script>
+<script src="../plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    $('#testAjax').click(function(){
+        $.ajax({
+            url:'/root/cache',
+            type:'post',
+            data:{id:'1'},
+            success:function (data) {
+                alert(data)
+            }
+        })
+    })
+</script>
 </body>
 </html>
