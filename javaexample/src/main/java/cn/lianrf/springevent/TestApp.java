@@ -18,7 +18,7 @@ public class TestApp {
 
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext(new String [] {"applicationContext.xml","applicationContext-threadpool.xml"});
-        Object xixi = applicationContext.getBean(TestApp.class);
+        Object xixi = applicationContext.getBean("haha");
         System.out.println("over");
     }
 

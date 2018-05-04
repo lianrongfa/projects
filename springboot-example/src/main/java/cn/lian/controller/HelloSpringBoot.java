@@ -1,5 +1,6 @@
 package cn.lian.controller;
 
+import cn.lian.core.ITest;
 import cn.lian.core.config.datasource.DataSourceEnum;
 import cn.lian.core.config.datasource.DynamicDatasource;
 import cn.lian.entity.Test;
@@ -10,12 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Created by lianrongfa on 2018/1/19.
  */
 @RestController
 @RequestMapping("/root")
 public class HelloSpringBoot {
+
+    @Autowired
+    List<ITest> list;
+
     @Autowired
     private HelloSerivce service;
 
