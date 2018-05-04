@@ -1,11 +1,6 @@
 package cn.lianrf;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.function.BiConsumer;
 
 /**
  * Created by lianrongfa on 2018/2/24.
@@ -20,13 +15,19 @@ public class Student implements Serializable{
     };
 
     public static void main(String[] args) {
+        Aa aa = new Aa();
 
-        List arrays = new ArrayList();
-
-        arrays.forEach((x)->{
-            System.out.println(x);
-        });
 
     }
 
+    public static void tset(Aa a){
+        a=null;
+    }
+
+}
+class Aa{
+    public void test(){
+
+
+    }
 }

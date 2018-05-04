@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class TestApp {
 
-    public static String ss="";
+    private String ss="";
     public TestApp() {
         System.out.println("TestApp construct init........");
     }
@@ -38,4 +38,7 @@ public class TestApp {
         ss="123123";
     }
 
+    public void setSs(String ss) {
+        this.ss = ss;
+    }
 }

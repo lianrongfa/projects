@@ -8,13 +8,13 @@ spring:
       driverClassName: com.mysql.jdbc.Driver
       url: jdbc:mysql://127.0.0.1:3306/learn
       username: root
-      password: root
+
     slaveDataSource:
       name: slaveDataSource
       driverClassName: com.mysql.jdbc.Driver
       url: jdbc:mysql://127.0.0.1:3306/learn2
       username: root
-      password: root
+
   thymeleaf:
     mode: HTML5
     cache: false
