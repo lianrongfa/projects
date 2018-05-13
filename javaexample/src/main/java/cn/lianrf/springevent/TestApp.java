@@ -1,14 +1,20 @@
 package cn.lianrf.springevent;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.LinkedList;
 
 /**
  * Created by lianrongfa on 2017/12/20.
  */
-
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestApp {
 
     private String ss="";
@@ -22,7 +28,7 @@ public class TestApp {
         System.out.println("over");
     }
 
-    private static void test(ApplicationContext applicationContext) {
+    public static void test(ApplicationContext applicationContext) {
         MyPubisher service = applicationContext.getBean(MyPubisher.class);
 
         LinkedList<String> resource = new LinkedList<String>();
@@ -32,6 +38,15 @@ public class TestApp {
         MyEvent myEvent = new MyEvent(resource);
         service.sendMessage(myEvent);
         System.out.println(Thread.currentThread().getName()+":main");
+    }
+
+
+    @Autowired
+    TestEntity testEntity;
+
+    @Test
+    public void junitTest(){
+        System.out.println(testEntity);
     }
 
     public void test(){

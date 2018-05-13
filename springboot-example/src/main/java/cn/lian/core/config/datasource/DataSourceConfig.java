@@ -47,7 +47,7 @@ public class DataSourceConfig {
         System.out.println("className:"+this);
         DynamicDatasource dynamicDatasource = new DynamicDatasource();
 
-        Map<Object, Object> dataSourceMap = new HashMap<>(2);
+        Map<Object, Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put(DataSourceEnum.MASTER.getName(),masterDataSource());
         dataSourceMap.put(DataSourceEnum.SLAVE.getName(),slaveDataSource());
 
