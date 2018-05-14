@@ -1,5 +1,7 @@
 package cn.lian.service.impl;
 
+import cn.lian.core.config.datasource.DataSourceEnum;
+import cn.lian.core.config.datasource.annotation.DataSource;
 import cn.lian.entity.Test;
 import cn.lian.entity.User;
 import cn.lian.mapper.UserMapper;
@@ -42,10 +44,23 @@ public class HelloServiceImpl implements HelloSerivce{
      * @param id
      * @return
      */
+    @DataSource(DataSourceEnum.MASTER)
     public User selectByPrimaryKey(String id){
         User user = mapper.selectByPrimaryKey(id);
         User user2 = mapper.selectByPrimaryKey(id);
         return null;
+    }
+
+    @DataSource(DataSourceEnum.MASTER)
+    public User selectByPrimaryKey1(String id){
+        User user = mapper.selectByPrimaryKey(id);
+        return user;
+    }
+
+    @DataSource(DataSourceEnum.SLAVE)
+    public User selectByPrimaryKey2(String id){
+        User user = mapper.selectByPrimaryKey(id);
+        return user;
     }
 
     /**

@@ -44,4 +44,13 @@ public enum DataSourceEnum {
         return nameKey;
     }
 
+    public static boolean contains(DataSourceEnum dataSource){
+        for (DataSourceEnum item:DataSourceEnum.values()) {
+            if(item.equals(dataSource)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

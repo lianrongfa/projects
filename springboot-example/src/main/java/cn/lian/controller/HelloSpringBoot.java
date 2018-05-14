@@ -3,14 +3,17 @@ package cn.lian.controller;
 import cn.lian.core.ITest;
 import cn.lian.core.config.datasource.DataSourceEnum;
 import cn.lian.core.config.datasource.DynamicDatasource;
+import cn.lian.core.mvcresult.Result;
 import cn.lian.entity.Test;
 import cn.lian.entity.User;
 import cn.lian.service.HelloSerivce;
 import cn.lian.service.UseCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,9 +34,30 @@ public class HelloSpringBoot {
 
     @RequestMapping("/hello1")
     public User hello1(){
-        service.checkN_1();
+        service.selectByPrimaryKey("1");
         System.out.println("hello111!");
         return new User();
+    }
+
+    @RequestMapping("/dataSource1")
+    public User dataSource1(){
+        User user = service.selectByPrimaryKey1("1");
+        return user;
+    }
+
+    @RequestMapping("/dataSource2")
+    public User dataSource2(){
+        //User user = service.selectByPrimaryKey2("1");
+        User user=new User();
+        Test test1 = new Test();
+        test1.settName("123");
+        Test test2 = new Test();
+        test2.settName("123");
+        ArrayList<Test> list = new ArrayList<>();
+        list.add(test1);
+        list.add(test2);
+        user.setTestList(list);
+        return user;
     }
 
     @RequestMapping("/hello2")
