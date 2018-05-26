@@ -8,10 +8,29 @@ public class TestApp {
     static ThreadLocal threadLocal=new ThreadLocal();
 
     public static void main(String[] args) {
-        test4();
+        Thread thread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        /*try {
+            thread.join();
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        System.out.println("main die");
     }
 
     private static void test1() {
+
         Source source = new Source();
 
         new Thread(()->{
