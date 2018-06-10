@@ -11,6 +11,7 @@
     <modules>
         <module>javaexample</module>
         <module>common</module>
+        <module>zookeeper</module>
     </modules>
 
 
