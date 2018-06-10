@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by lianrongfa on 2018/1/26.
+ *
+ * 超时自动销毁队列
  */
 public class CacheQueue<V> implements Cache<V>,Serializable{
     //维护队列所用
