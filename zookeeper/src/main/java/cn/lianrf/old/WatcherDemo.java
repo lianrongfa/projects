@@ -8,7 +8,7 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by lianrongfa on 2018/6/12.
- *
+ * <p>
  * 客户端注册监听有三种方式 ： getData exists getChildren
  */
 public class WatcherDemo {
@@ -21,6 +21,7 @@ public class WatcherDemo {
                 System.out.println("watcher ... "+x.getType());
             });
             String s = zooKeeper.create("/lianrf", "0".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+            zooKeeper.getData("/lianrf",true,null);
             zooKeeper.exists("/lianrf",true);
             zooKeeper.setData("/lianrf","0".getBytes(),-1);
 
@@ -33,4 +34,5 @@ public class WatcherDemo {
         Thread.sleep(10000);
         //zooKeeper.create("/mic","0".getBytes(), ZooDefs.Ids. OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);//创建节点
     }
+
 }
