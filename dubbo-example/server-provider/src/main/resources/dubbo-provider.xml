@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://code.alibabatech.com/schema/dubbo
+           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!--服务名称-->
+    <dubbo:application name="server-provider" owner="lianrf"/>
+
+    <!--注册中心 如果不需要注册中心 address为:N/A  zookeeper://120.77.243.179:2181-->
+    <dubbo:registry id="zk" address="N/A"/>
+
+    <!--部署的协议-->
+    <dubbo:protocol name="dubbo" port="20880" />
+
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl"/>
+
+    <bean id="userServiceImpl" class="cn.lianrf.service.UserServiceImpl"/>
+
+</beans>
