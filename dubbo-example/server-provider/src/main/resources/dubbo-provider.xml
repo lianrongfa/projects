@@ -10,7 +10,7 @@
     <dubbo:application name="server-provider" owner="lianrf"/>
 
     <!--注册中心 如果不需要注册中心 address为:N/A  zookeeper://120.77.243.179:2181-->
-    <dubbo:registry id="zk" address="N/A"/>
+    <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181"/>
 
     <!--部署的协议-->
     <dubbo:protocol name="dubbo" port="20880" />

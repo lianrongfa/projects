@@ -29,6 +29,19 @@
             <artifactId>dubbo</artifactId>
             <version>2.5.8</version>
         </dependency>
+
+        <!--dubbo使用zookeeper为注册中心时，需要引入zookeeper、zkclient-->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.9</version>
+        </dependency>
+
     </dependencies>
 
 </project>

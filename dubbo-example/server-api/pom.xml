@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.lianrf</groupId>
     <artifactId>server-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
