@@ -10,9 +10,10 @@
     <dubbo:application name="server-consumer" owner="lianrf"/>
 
     <!--注册中心 如果不需要注册中心 address为:N/A  zookeeper://120.77.243.179:2181-->
-    <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181"/>
+    <!--需要缓存是 配置file文件-->
+    <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181" file="d:/dubbo-server"/>
 
-    <!--无注册中心时需指定url-->
-    <dubbo:reference id="userServiceImpl" interface="cn.lianrf.IUserService" url="dubbo://192.168.1.109:20880/cn.lianrf.IUserService"/>
+    <!--无注册中心时需指定url  url="dubbo://192.168.1.109:20880/cn.lianrf.IUserService"-->
+    <dubbo:reference id="userServiceImpl" interface="cn.lianrf.IUserService" version="1.0.1"/>
 
 </beans>

@@ -15,8 +15,10 @@
     <!--部署的协议-->
     <dubbo:protocol name="dubbo" port="20880" />
 
-    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl"/>
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0"/>
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1"/>
 
     <bean id="userServiceImpl" class="cn.lianrf.service.UserServiceImpl"/>
+    <bean id="userServiceImpl2" class="cn.lianrf.service.UserServiceImpl2"/>
 
 </beans>
