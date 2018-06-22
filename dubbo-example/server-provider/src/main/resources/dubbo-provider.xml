@@ -15,14 +15,16 @@
 
     <!--部署的协议-->
     <dubbo:protocol name="dubbo" port="20880" />
-    <dubbo:protocol name="hessian" port="20881" />
+    <!--<dubbo:protocol name="hessian" port="20881" />-->
 
     <!--如何注册中心有多个，服务需要指定registry-->
 
-    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0" protocol="dubbo,hessian"/>
-    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1" protocol="hessian"/>
+    <!--<dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0" protocol="dubbo,hessian"/>
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1" protocol="hessian"/>-->
+
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" timeout="1"/>
 
     <bean id="userServiceImpl" class="cn.lianrf.service.UserServiceImpl"/>
-    <bean id="userServiceImpl2" class="cn.lianrf.service.UserServiceImpl2"/>
+    <!--<bean id="userServiceImpl2" class="cn.lianrf.service.UserServiceImpl2"/>-->
 
 </beans>

@@ -13,12 +13,14 @@
     <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181"/>
 
     <!--部署的协议-->
-    <dubbo:protocol name="dubbo" port="20880" />
+    <dubbo:protocol name="dubbo" port="20881" />
 
-    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0"/>
-    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1"/>
+    <!--<dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0"/>
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1"/>-->
+
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl"/>
 
     <bean id="userServiceImpl" class="cn.lianrf.service.UserServiceImpl"/>
-    <bean id="userServiceImpl2" class="cn.lianrf.service.UserServiceImpl2"/>
+    <!--<bean id="userServiceImpl2" class="cn.lianrf.service.UserServiceImpl2"/>-->
 
 </beans>
