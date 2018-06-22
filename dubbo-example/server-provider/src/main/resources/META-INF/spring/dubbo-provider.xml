@@ -7,14 +7,18 @@
            http://code.alibabatech.com/schema/dubbo
            http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!--服务名称-->
-    <dubbo:application name="server-consumer" owner="lianrf"/>
+    <dubbo:application name="server-provider" owner="lianrf"/>
 
     <!--注册中心 如果不需要注册中心 address为:N/A  zookeeper://120.77.243.179:2181-->
-    <!--需要缓存是 配置file文件 file="d:/dubbo-server"-->
-    <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181" file="./dubbo.cache"/>
+    <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181"/>
 
-    <!--无注册中心时需指定url  url="dubbo://192.168.1.109:20880/cn.lianrf.IUserService"-->
-    <!--如何两个服务相互依赖，需要关闭检查 check-->
-    <dubbo:reference id="userServiceImpl" interface="cn.lianrf.IUserService" version="1.0.1" protocol="hassian" check="false"/>
+    <!--部署的协议-->
+    <dubbo:protocol name="dubbo" port="20880" />
+
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0"/>
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1"/>
+
+    <bean id="userServiceImpl" class="cn.lianrf.service.UserServiceImpl"/>
+    <bean id="userServiceImpl2" class="cn.lianrf.service.UserServiceImpl2"/>
 
 </beans>

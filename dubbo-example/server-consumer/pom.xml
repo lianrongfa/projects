@@ -40,6 +40,25 @@
             <artifactId>zkclient</artifactId>
             <version>0.9</version>
         </dependency>
+
+        <!--hessian 协议 需要依赖hessian、servlet-api、jetty-->
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>4.0.38</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>6.1.26</version>
+        </dependency>
+
     </dependencies>
 
 </project>

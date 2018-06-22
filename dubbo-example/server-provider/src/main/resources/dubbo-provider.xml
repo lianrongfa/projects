@@ -9,14 +9,18 @@
     <!--服务名称-->
     <dubbo:application name="server-provider" owner="lianrf"/>
 
-    <!--注册中心 如果不需要注册中心 address为:N/A  zookeeper://120.77.243.179:2181-->
+    <!--注册中心(可以有多个，需要指定id) 如果不需要注册中心 address为:N/A  zookeeper://120.77.243.179:2181-->
+    <!--如果为集群：zookeeper://192.168.11.156:2181,192.168.11.157:2181-->
     <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181"/>
 
     <!--部署的协议-->
     <dubbo:protocol name="dubbo" port="20880" />
+    <dubbo:protocol name="hessian" port="20881" />
 
-    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0"/>
-    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1"/>
+    <!--如何注册中心有多个，服务需要指定registry-->
+
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl" version="1.0.0" protocol="dubbo,hessian"/>
+    <dubbo:service interface="cn.lianrf.IUserService" ref="userServiceImpl2" version="1.0.1" protocol="hessian"/>
 
     <bean id="userServiceImpl" class="cn.lianrf.service.UserServiceImpl"/>
     <bean id="userServiceImpl2" class="cn.lianrf.service.UserServiceImpl2"/>
