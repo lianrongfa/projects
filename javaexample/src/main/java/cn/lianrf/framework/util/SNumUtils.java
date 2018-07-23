@@ -1,12 +1,5 @@
 package cn.lianrf.framework.util;
 
-import com.sun.deploy.util.StringUtils;
-
-import javax.management.Query;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
