@@ -9,7 +9,12 @@ import java.util.function.BiConsumer;
  */
 public class CompletableFutureDemo {
     public static void main(String[] args) {
-         CompletableFuture.
+
+
+        CompletableFuture completableFuture = new CompletableFuture();
+
+
+        CompletableFuture.
             runAsync(null).
             thenRun(null).
             whenComplete(new BiConsumer<Void, Throwable>() {//完成反馈
