@@ -8,6 +8,8 @@ import cn.lian.entity.Test;
 import cn.lian.entity.User;
 import cn.lian.service.HelloSerivce;
 import cn.lian.service.UseCacheService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/root")
+@Api(value = "test",description = "gwew")
 public class HelloSpringBoot {
 
     @Autowired
@@ -32,6 +35,7 @@ public class HelloSpringBoot {
     @Autowired
     private UseCacheService cacheService;
 
+    @ApiOperation(value="获取用户详细信息", notes="根据url的id来获取用户详细信息")
     @RequestMapping("/hello1")
     public User hello1(){
         service.selectByPrimaryKey("1");
