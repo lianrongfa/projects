@@ -4,7 +4,6 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 
 import java.time.Duration;
@@ -20,8 +19,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ConsumerDemo {
 
-    private static String groupId="dba";
-    private static String consumerId="consumer.test2";
+    private static String groupId="dba4";
+    private static String consumerId="consumer.test3";
     private static AtomicBoolean isRun=new AtomicBoolean(true);
 
     public static Properties initConfig(){
@@ -31,6 +30,7 @@ public class ConsumerDemo {
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG,groupId);
         properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG,consumerId);
+        properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest");
         /*取消自动提交*/
         //properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,false);
         /**
