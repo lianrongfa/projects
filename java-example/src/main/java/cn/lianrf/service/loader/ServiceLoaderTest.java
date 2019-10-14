@@ -1,5 +1,6 @@
 package cn.lianrf.service.loader;
 
+import java.lang.reflect.Type;
 import java.util.ServiceLoader;
 
 /**
@@ -13,7 +14,10 @@ public class ServiceLoaderTest {
     public static void main(String[] args) {
         ServiceLoader<LoaderInterface> load = ServiceLoader.load(LoaderInterface.class);
         /*for (LoaderInterface loaderInterface : load) {
-            System.out.println(loaderInterface);
+           loaderInterface.test("123");
         }*/
+
+        LoaderImpl3 impl3 = new LoaderImpl3();
+        impl3.test("");
     }
 }

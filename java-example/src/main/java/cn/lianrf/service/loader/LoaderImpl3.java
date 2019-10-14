@@ -8,10 +8,7 @@ import java.lang.reflect.Type;
  * @date: 2019/10/12
  * @author: lianrf
  */
-public interface LoaderInterface<T> {
-
-    default void test(T t){
-    }
+public class LoaderImpl3 extends LoaderImpl2<String>{
 
 
 }
