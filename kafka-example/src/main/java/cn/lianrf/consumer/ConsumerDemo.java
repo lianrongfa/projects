@@ -30,6 +30,11 @@ public class ConsumerDemo {
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG,groupId);
         properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG,consumerId);
+        /**
+         * earliest表示每个消费组从最早的消息开始消费，及第一个消息
+         * latest表示从分区末尾开始消费消息
+         * 默认为latest
+         */
         properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest");
         /*取消自动提交*/
         //properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,false);
