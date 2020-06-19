@@ -4,6 +4,8 @@ import java.lang.reflect.Type;
 import java.util.ServiceLoader;
 
 /**
+ *
+ * java spi
  * 用于加载 META-INF/services/ 目录下的配置文件类
  * 配置文件中的类需要实现load中的接口
  * @version: v1.0
@@ -13,9 +15,9 @@ import java.util.ServiceLoader;
 public class ServiceLoaderTest {
     public static void main(String[] args) {
         ServiceLoader<LoaderInterface> load = ServiceLoader.load(LoaderInterface.class);
-        /*for (LoaderInterface loaderInterface : load) {
+        for (LoaderInterface loaderInterface : load) {
            loaderInterface.test("123");
-        }*/
+        }
 
         LoaderImpl3 impl3 = new LoaderImpl3();
         impl3.test("");
