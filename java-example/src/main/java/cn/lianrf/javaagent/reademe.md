@@ -61,3 +61,37 @@ public interface Instrumentation {
     void setNativeMethodPrefix(ClassFileTransformer transformer, String prefix);
 }
 ```
+
+[使用bytebuddy实现javaagent](https://www.jianshu.com/p/fe1448bf7d31)
+maven依赖
+````xml
+<dependency>
+    <groupId>net.bytebuddy</groupId>
+    <artifactId>byte-buddy-agent</artifactId>
+    <version>1.10.12</version>
+</dependency>
+````
+构建插件
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <artifactSet>
+            <includes>
+                <include>javassist:javassist:jar:</include>
+                <include>net.bytebuddy:byte-buddy:jar:</include>
+                <include>net.bytebuddy:byte-buddy-agent:jar:</include>
+            </includes>
+        </artifactSet>
+    </configuration>
+</plugin>
+```

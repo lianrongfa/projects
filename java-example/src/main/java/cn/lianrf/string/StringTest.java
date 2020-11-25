@@ -1,8 +1,5 @@
 package cn.lianrf.string;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-
 /**
  * Created by lianrongfa on 2018/1/17.
  */
@@ -44,11 +41,4 @@ enum Aa{
 
     private int i;
     public static final String SEQUENCE_NAME="HD_SQ_N_CY";
-}
-class Hi{
-    private int s;
-
-    public Hi(int s) {
-        this.s = s;
-    }
 }
