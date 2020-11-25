@@ -76,22 +76,36 @@ maven依赖
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-shade-plugin</artifactId>
+    <version>3.2.4</version>
     <executions>
         <execution>
             <phase>package</phase>
             <goals>
-                <goal>shade</goal>
+                <goal>shade</goal><!--重要，加上才会有Premain-Class-->
             </goals>
+            <configuration>
+                <artifactSet>
+                    <includes>
+                        <include>javassist:javassist:jar:</include>
+                        <include>net.bytebuddy:byte-buddy:jar:</include>
+                        <include>net.bytebuddy:byte-buddy-agent:jar:</include>
+                    </includes>
+                </artifactSet>
+                <transformers>
+                    <transformer
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <manifestEntries>
+                            <Main-Class>cn.lianrf.javaagent.AgentTest</Main-Class>
+                            <Premain-Class>cn.lianrf.javaagent.MyAgent</Premain-Class>
+                        </manifestEntries>
+                    </transformer>
+                </transformers>
+            </configuration>
         </execution>
     </executions>
-    <configuration>
-        <artifactSet>
-            <includes>
-                <include>javassist:javassist:jar:</include>
-                <include>net.bytebuddy:byte-buddy:jar:</include>
-                <include>net.bytebuddy:byte-buddy-agent:jar:</include>
-            </includes>
-        </artifactSet>
-    </configuration>
 </plugin>
+```
+代码测试cn.lianrf.demo.agent.ApiTest，需要加上Javaagent参数，其中=testargs代表传入premain中的string参数
+```
+-javaagent:C:\Users\86180\Desktop\mymodel\code\projects\java-example\target\java-example-1.0.jar=testargs
 ```

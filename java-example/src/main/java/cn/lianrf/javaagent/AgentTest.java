@@ -63,6 +63,6 @@ public class AgentTest {
     }
 
     public static void main(String[] args) throws Exception {
-        test2();
+
     }
 }
