@@ -15,6 +15,7 @@
       <module>kafka-example</module>
       <module>ping</module>
     <module>flowable</module>
+      <module>java11-example</module>
   </modules>
 
 
