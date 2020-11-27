@@ -2,6 +2,8 @@ package cn.lianrf.javaagent;
 
 import javassist.Modifier;
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.NamingStrategy;
+import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -62,7 +64,49 @@ public class AgentTest {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    /**
+     * 开始3 with-api使用 此处为设置包名
+     */
+    public static void test3(){
+        DynamicType.Unloaded<?> dynamicType = new ByteBuddy()
+                .with(new NamingStrategy.AbstractBase() {
+                    @Override
+                    protected String name(TypeDescription superClass) {
+                        return "i.love.ByteBuddy"+superClass.getSimpleName();
+                    }
+                })
+                .subclass(Object.class)
+                .make();
+                //with-api
+        //可以查看生成的class
+        byte[] bytes = dynamicType.getBytes();
+        File file = new File("C:\\Users\\86180\\Desktop\\test.class");
+        outToFile(bytes, file);
+    }
 
+    /**
+     * 开始4 rebase/
+     */
+    public static void test4(){
+        DynamicType.Unloaded<?> dynamicType = new ByteBuddy()
+                .rebase(AgentTest.class)
+                .defineField("test", String.class,Modifier.PUBLIC + Modifier.STATIC)
+                .make();
+        //可以查看生成的class
+
+        byte[] bytes = dynamicType.getBytes();
+        File file = new File("C:\\Users\\86180\\Desktop\\test.class");
+        outToFile(bytes, file);
+    }
+    private static void outToFile(byte[] bytes, File file) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            fileOutputStream.write(bytes);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        test4();
     }
 }
