@@ -40,7 +40,7 @@ public class LogAop implements ApplicationContextAware {
             Object[] args = joinPoint.getArgs();
             Object target = point.getTarget();
             Class<?> targetClass = target.getClass();
-
+            logNoteProcess(method,args,target,targetClass);
             joinPoint.proceed();
 
         } catch (Exception e) {
