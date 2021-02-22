@@ -89,7 +89,7 @@ public class LogExpressionEvaluator {
 
         private final String expression;
 
-        protected ExpressionKey(AnnotatedElementKey element, String expression) {
+        private ExpressionKey(AnnotatedElementKey element, String expression) {
             Assert.notNull(element, "AnnotatedElementKey must not be null");
             Assert.notNull(expression, "Expression must not be null");
             this.element = element;

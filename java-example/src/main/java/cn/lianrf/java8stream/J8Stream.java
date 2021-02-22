@@ -2,7 +2,6 @@ package cn.lianrf.java8stream;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,8 +23,12 @@ public class J8Stream {
         of();
     }
 
-    private static void of() {
-        J8Stream j8Stream = new J8Stream();
+    private static void of () {
+
+
+
+
+
         List<String> list = Arrays.asList("123", "fweg", "wegwe");
         List<Object> collect = Stream.of("123", "fweg", "wegwe").map(J8Stream::test).collect(Collectors.toList());
 
