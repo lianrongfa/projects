@@ -1,6 +1,7 @@
 package cn.lianrf.java;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.shardingsphere.api.config.sharding.KeyGeneratorConfiguration;
 import org.apache.shardingsphere.api.config.sharding.ShardingRuleConfiguration;
 import org.apache.shardingsphere.api.config.sharding.TableRuleConfiguration;
 import org.apache.shardingsphere.api.config.sharding.strategy.InlineShardingStrategyConfiguration;
@@ -8,9 +9,7 @@ import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 
 /**
@@ -43,30 +42,77 @@ public class JavaAppTest {
 
         // 配置Order表规则
         TableRuleConfiguration orderTableRuleConfig = new TableRuleConfiguration("order","db${0..1}.order");
-
         // 配置分库 + 分表策略
         orderTableRuleConfig.setDatabaseShardingStrategyConfig(new InlineShardingStrategyConfiguration("id", "db${id % 2}"));
-//        orderTableRuleConfig.setTableShardingStrategyConfig(new InlineShardingStrategyConfiguration("order_num", "order"));
+        //设置主键 自增列值生成器类型，可自定义或选择内置类型：SNOWFLAKE/UUID
+        orderTableRuleConfig.setKeyGeneratorConfig(new KeyGeneratorConfiguration("customKey","id"));
 
+        // 配置OrderItem绑定表规则
+        TableRuleConfiguration orderItemTableRuleConfig = new TableRuleConfiguration("order_item","db${0..1}.order_item");
+        orderItemTableRuleConfig.setDatabaseShardingStrategyConfig(new InlineShardingStrategyConfiguration("order_id","db${order_id%2}"));
 
 
         // 配置分片规则
         ShardingRuleConfiguration shardingRuleConfig = new ShardingRuleConfiguration();
-        shardingRuleConfig.getTableRuleConfigs().add(orderTableRuleConfig);
+        shardingRuleConfig.getTableRuleConfigs().addAll(Arrays.asList(orderTableRuleConfig,orderItemTableRuleConfig));
 
-        // 省略配置order_item表规则...
-        // ...
+        //设置绑定，防止出现笛卡尔积
+        shardingRuleConfig.getBindingTableGroups().add("order,order_item");
+
 
         // 获取数据源对象
         DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig, new Properties());
 
-        //insert(dataSource);
-        selectALL(dataSource);
+        insertOrder(dataSource);
+//        insertOrderItem(dataSource);
+//        selectOrderALL(dataSource);
+//        selectOrderItem(dataSource);
+
+    }
+
+    private static void selectOrderItem(DataSource dataSource) throws SQLException {
+        long l = System.currentTimeMillis();
+        Connection connection = dataSource.getConnection();
+        Statement statement = connection.createStatement();
+
+        ResultSet resultSet = statement.executeQuery("select oi.id,oi.order_id from `order_item` oi inner join `order` o on o.id=oi.order_id where oi.order_id=1");
+
+        while (resultSet.next()){
+            System.out.print("id = " + resultSet.getObject(1));
+            System.out.print(", order_id = " + resultSet.getObject(2));
+            System.out.println();
+        }
+
+        System.out.println(System.currentTimeMillis()-l);
+        connection.close();
 
 
     }
 
-    private static void selectALL(DataSource dataSource) throws SQLException {
+    private static void insertOrderItem(DataSource dataSource) throws SQLException {
+
+        Connection connection = dataSource.getConnection();
+
+        connection.setAutoCommit(false);
+
+
+        String sql="INSERT INTO `order_item` (id,order_id) values (?,?)";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+
+        for (int i = 1; i <= 2000; i++) {
+            statement.setLong(1,i);
+            int m = new Random().nextInt(10)+1;
+            statement.setInt(2,m);
+            statement.execute();
+        }
+        connection.commit();
+        connection.close();
+
+    }
+
+    private static void selectOrderALL(DataSource dataSource) throws SQLException {
         Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
 
@@ -80,20 +126,20 @@ public class JavaAppTest {
 
     }
 
-    private static void insert(DataSource dataSource) throws SQLException {
+    private static void insertOrder(DataSource dataSource) throws SQLException {
         Connection connection = dataSource.getConnection();
 
         connection.setAutoCommit(false);
 
 
-        String sql="INSERT INTO `order` (id,order_num) values (?,?)";
+        String sql="INSERT INTO `order` (order_num) values (?)";
 
         PreparedStatement statement = connection.prepareStatement(sql);
 
 
         for (int i = 1; i <= 10; i++) {
-            statement.setLong(1,i);
-            statement.setString(2,String.valueOf(i));
+//            statement.setLong(1,i);
+            statement.setString(1,String.valueOf(i));
             statement.execute();
         }
         connection.commit();
