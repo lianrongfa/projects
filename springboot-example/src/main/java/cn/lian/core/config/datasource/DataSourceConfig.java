@@ -28,13 +28,13 @@ public class DataSourceConfig {
      */
     @Bean("masterDataSource")
     @Primary
-    @ConfigurationProperties(prefix="spring.datasource.masterDataSource")
+    @ConfigurationProperties(value="spring.datasource.master-data-source")
     public DataSource masterDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
 
     @Bean("slaveDataSource")
-    @ConfigurationProperties(prefix="spring.datasource.slaveDataSource")
+    @ConfigurationProperties(value="spring.datasource.slave-data-source")
     public DataSource slaveDataSource(){
         return DruidDataSourceBuilder.create().build();
     }

@@ -3,18 +3,18 @@ server:
 
 spring:
   datasource:
-    masterDataSource:
+    master-data-source:
       name: masterDataSource
-      driverClassName: com.mysql.jdbc.Driver
+      driverClassName: com.alibaba.druid.proxy.DruidDriver
       url: jdbc:mysql://127.0.0.1:3306/learn
       username: root
-
-    slaveDataSource:
+      password: 12345678
+    slave-data-source:
       name: slaveDataSource
-      driverClassName: com.mysql.jdbc.Driver
+      driverClassName: com.alibaba.druid.proxy.DruidDriver
       url: jdbc:mysql://127.0.0.1:3306/learn2
       username: root
-
+      password: 12345678
   thymeleaf:
     mode: HTML5
     cache: false
@@ -29,7 +29,6 @@ mybatis:
   configuration:
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
-    lazy-load-trigger-methods:
     default-executor-type: reuse
 
 #pagehelper\u5206\u9875\u63D2\u4EF6
