@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-           xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://code.alibabatech.com/schema/dubbo
            http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
@@ -10,10 +10,15 @@
     <dubbo:application name="server-consumer" owner="lianrf"/>
 
     <!--注册中心 如果不需要注册中心 address为:N/A  zookeeper://120.77.243.179:2181-->
-    <!--需要缓存是 配置file文件-->
-    <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181" file="d:/dubbo-server"/>
+    <!--需要缓存是 配置file文件 file="d:/dubbo-server"-->
+    <dubbo:registry id="zk" address="zookeeper://120.77.243.179:2181" file="./dubbo.cache"/>
 
     <!--无注册中心时需指定url  url="dubbo://192.168.1.109:20880/cn.lianrf.IUserService"-->
-    <dubbo:reference id="userServiceImpl" interface="cn.lianrf.IUserService" version="1.0.1"/>
+    <!--如何两个服务相互依赖，需要关闭检查 check-->
+    <!--version="1.0.1" protocol="dubbo"-->
+    <dubbo:reference id="userServiceImpl" interface="cn.lianrf.IUserService"
+                     cluster="forking"
+                     mock="cn.lianrf.mock.TestMock"
+                     check="false"/>
 
 </beans>

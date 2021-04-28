@@ -1,8 +1,10 @@
 package cn.lianrf;
 
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -45,7 +47,7 @@ public class DistributedLock implements Lock, Watcher {
     public static void main(String[] args) {
         try {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
-            ZooKeeper zooKeeper = new ZooKeeper("192.168.11.153:2181, 192.168.11.154:2181,192.168.11.155:2181",
+            ZooKeeper zooKeeper = new ZooKeeper("192.168.101.31:2181,192.168.101.32:2181,192.168.101.33:2181",
                     4000, new Watcher() {
                 @Override
                 public void process(WatchedEvent event) {
@@ -57,10 +59,15 @@ public class DistributedLock implements Lock, Watcher {
             });
             countDownLatch.await();
             System.out.println(zooKeeper.getState());//CONNECTING
+            Stat exists = zooKeeper.exists("/123", true);
+            System.out.println(exists.toString());
+
             zooKeeper.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (KeeperException e) {
             e.printStackTrace();
         }
     }
