@@ -7,53 +7,81 @@ package cn.lianrf.thread;
  * @date: 2021/4/28
  * @author: lianrf
  */
+/**
+ *
+ * 三个线程A B C，A负责发任务序号1、2、3…，BC线程负责处理、B处理偶数任务、C处理奇数任务、怎么保证任务顺序执行？
+ */
 public class ThreadSequenceExe {
 
-    public Integer source=-1;
+    private int source=-1;
 
-    public static void main(String[] args) throws InterruptedException {
 
-        Thread thread = new Thread(()->{
-            ThreadSequenceExe threadSequenceExe = new ThreadSequenceExe();
-            try {
-                threadSequenceExe.start();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        thread.setName("my-ThreadA");
-        thread.start();
+    public static void main(String[] args) {
+        new ThreadSequenceExe().test1();
+    }
+
+    public void test2(){
+
+        ReentrantLock reentrantLock = new ReentrantLock();
+
+        Condition even = reentrantLock.newCondition();
+
+        Condition odd = reentrantLock.newCondition();
+
+
+        int i=0;
+        while (i<100){
+
+            reentrantLock.lock();
+
+
+
+
+        }
+
+
 
     }
 
-    public void start() throws InterruptedException {
 
-        ThreadSequenceExe lock=this;
+    /**
+     * 方法一 synchronized 实现
+     */
+    public void test1(){
+        ThreadSequenceExe lock = this;
 
-        Thread threadB = new Thread(()->{
-            synchronized (lock){
-                while (true){
-                    if(source%2==0){
-                        System.out.println("B get source:"+source);
-                        source=-1;
-                    }
-                        lock.notifyAll();
-                        try {
-                            lock.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+        new Thread(()->{
+            while (true){
+                synchronized (lock){
+                    if(lock.source%2==0&&lock.source!=0){
+                        System.out.println("B:"+lock.source);
+                        if(lock.source==98){
+                            reset();
+                            return;
                         }
+                        reset();
+                    }
+                    lock.notifyAll();
+                    try {
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        });
-        threadB.setName("my-ThreadB");
-        Thread threadC = new Thread(()->{
-            while (true) {
-                synchronized (lock) {
-                    if (source % 2 == 1) {
-                        System.out.println("c get source:" + source);
-                        source = -1;
+        }).start();
+        new Thread(()->{
+            while (true){
+                synchronized (lock){
+                    if(lock.source%2==1){
+                        System.out.println("A:"+lock.source);
+                        if(lock.source==99){
+                            lock.notifyAll();
+                            return;
+                        }
+                        reset();
                     }
+
                     lock.notifyAll();
                     try {
                         lock.wait();
@@ -63,22 +91,27 @@ public class ThreadSequenceExe {
 
                 }
             }
-        });
-        threadB.setName("my-ThreadC");
-        threadB.start();
-        threadC.start();
-
-        for (int i = 1; i < 100; i++) {
+        }).start();
+        int i=0;
+        while (i<99) {
             synchronized (lock){
-                if(source==-1){
-                    source=i;
-                    lock.notifyAll();
+                if(lock.source==-1){
+                    i++;
+                    lock.source=i;
+                }
+                lock.notifyAll();
+                try {
                     lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
+    }
 
 
+    private void reset(){
+        this.source=-1;
     }
 
 }
