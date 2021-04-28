@@ -7,7 +7,7 @@
     <context:component-scan base-package="cn.lianrf"/>
     <aop:aspectj-autoproxy expose-proxy="true" />
 
-    <bean id="haha" class="cn.lianrf.springevent.TestEntity">
+    <!--<bean id="haha" class="cn.lianrf.springevent.TestEntity">
          <property name="name" value="xixi"></property>
          <property name="names">
             <list>
@@ -15,7 +15,7 @@
                 <value>bb</value>
             </list>
          </property>
-    </bean>
+    </bean>-->
 
 
 </beans>

@@ -3,12 +3,13 @@ package cn.lianrf.springevent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
  * Created by lianrongfa on 2017/12/28.
  */
-//@Configuration
+@Configuration
 public class TestEntity {
 
     private String name;
@@ -40,4 +41,14 @@ public class TestEntity {
     public void setNames(List<String>[] names) {
         this.names = names;
     }
+    @PostConstruct
+    public void post(){
+        System.out.println("!~~~~~~~~~~~post");
+    }
+
+    @Bean/*(initMethod = "post",destroyMethod = "post")*/
+    public TestEntity beans(){
+        return new TestEntity();
+    }
+
 }

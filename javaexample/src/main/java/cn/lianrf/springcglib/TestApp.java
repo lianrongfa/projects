@@ -13,7 +13,7 @@ public class TestApp {
         ApplicationContext factory=new ClassPathXmlApplicationContext("applicationContext.xml");
         /*IStudent bean = (IStudent)factory.getBean("student");
         bean.say();*/
-        ThreadPoolTaskExecutor bean1 = factory.getBean(ThreadPoolTaskExecutor.class);
+        /*ThreadPoolTaskExecutor bean1 = factory.getBean(ThreadPoolTaskExecutor.class);*/
     }
 
 }
