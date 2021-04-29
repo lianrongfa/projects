@@ -7,17 +7,22 @@ package cn.lianrf.thread;
  * @date: 2021/4/28
  * @author: lianrf
  */
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  *
  * 三个线程A B C，A负责发任务序号1、2、3…，BC线程负责处理、B处理偶数任务、C处理奇数任务、怎么保证任务顺序执行？
  */
 public class ThreadSequenceExe {
 
+
     private int source=-1;
 
 
     public static void main(String[] args) {
-        new ThreadSequenceExe().test1();
+
     }
 
     public void test2(){
