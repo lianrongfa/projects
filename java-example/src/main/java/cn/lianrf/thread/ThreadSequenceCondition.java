@@ -12,7 +12,49 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ThreadSequenceCondition {
 
-    public static void main(String[] args){
+    private static void test123() throws InterruptedException {
+        ReentrantLock reentrantLock = new ReentrantLock();
+
+        Condition condition = reentrantLock.newCondition();
+
+        new Thread(()->{
+
+            reentrantLock.lock();
+            try {
+                System.out.println("child get lock");
+                Thread.sleep(1);
+                condition.signal();
+
+                System.out.println("child weak up");
+
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            reentrantLock.unlock();
+            System.out.println("child thread die");
+        }).start();
+
+        reentrantLock.lock();
+
+        System.out.println("main lock");
+        condition.signal();
+        Thread.sleep(1000);
+        System.out.println("signal");
+        System.out.println("await");
+        condition.await();
+
+        reentrantLock.unlock();
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        test();
+    }
+
+
+
+    private static void test() {
         ReentrantLock reentrantLock = new ReentrantLock();
         Condition conditionB = reentrantLock.newCondition();
         Condition conditionC = reentrantLock.newCondition();
@@ -32,7 +74,6 @@ public class ThreadSequenceCondition {
             i++;
             if(i%2==0){
                 b.queue=i;
-                conditionB.signal();
                 try {
                     //Thread.sleep(1000L); 防止当前线程未执行完，消费线程B/C已经执行完
                     /*  eg:
@@ -40,17 +81,17 @@ public class ThreadSequenceCondition {
                         System.out.println(getName()+":"+queue);
                         condition.signal();
                     * */
-                    Thread.sleep(1000L);
+                    conditionB.signal();
+                    System.out.println("A生成："+i);
                     conditionB.await();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }else {
                 c.queue=i;
-                conditionC.signal();
-
                 try {
-                    Thread.sleep(1000L);
+                    conditionC.signal();
+                    System.out.println("A生成："+i);
                     conditionC.await();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -58,7 +99,6 @@ public class ThreadSequenceCondition {
             }
             reentrantLock.unlock();
         }
-
     }
 
 
@@ -82,9 +122,10 @@ class ThreadRun extends Thread{
         while (true){
             lock.lock();
             try {
-                condition.await();
+//                condition.await(); bug in th
                 System.out.println(getName()+":"+queue);
                 condition.signal();
+                condition.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 break;
