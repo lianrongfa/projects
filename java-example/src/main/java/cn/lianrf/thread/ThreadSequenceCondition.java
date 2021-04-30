@@ -72,15 +72,10 @@ public class ThreadSequenceCondition {
         while (true){
             reentrantLock.lock();
             i++;
+            System.out.println(Thread.currentThread().getName()+"get lock");
             if(i%2==0){
                 b.queue=i;
                 try {
-                    //Thread.sleep(1000L); 防止当前线程未执行完，消费线程B/C已经执行完
-                    /*  eg:
-                    *   condition.await();//醒来
-                        System.out.println(getName()+":"+queue);
-                        condition.signal();
-                    * */
                     conditionB.signal();
                     System.out.println("A生成："+i);
                     conditionB.await();
@@ -121,11 +116,14 @@ class ThreadRun extends Thread{
     public void run() {
         while (true){
             lock.lock();
+            System.out.println(getName()+"get lock");
             try {
-//                condition.await(); bug in th
+                // 当signal后，A线程抢到了lock，该线程阻塞到lock.lock(),conditionB.signal未唤醒任何线程，故整个过程一直阻塞
+                condition.await(); //bug in there 此处应注释
+
                 System.out.println(getName()+":"+queue);
                 condition.signal();
-                condition.await();
+//                condition.await();//此处打开
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 break;
