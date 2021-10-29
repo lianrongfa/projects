@@ -14,7 +14,7 @@
         <module>dubbo-example</module>
         <module>kafka-example</module>
         <module>flowable</module>
-        <module>java11-example</module>
+        <module>antlr-demo</module>
     </modules>
 
   <dependencies>
