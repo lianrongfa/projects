@@ -1,25 +1,23 @@
-
 grammar Expr;
+/** 起始规则 语法分析器起点 */
+prog:	stat+ ;
 
-prog : stat+;
-
-stat: expr NEWLINE          # printExpr
-    | ID '=' expr NEWLINE   # assign
-    | NEWLINE               # blank
+stat:   expr        # printExpr
+    |   ID '=' expr # assign
     ;
 
-expr: expr op=('*'|'/') expr    # MulDiv
-| expr op=('+'|'-') expr        # AddSub
-| INT                           # int
-| ID                            # id
-| '(' expr ')'                  # parens
-;
+expr:	expr op=('*'|'/') expr # MulDiv
+    |	expr op=('+'|'-') expr # AddSub
+    |	INT                 # int
+    |   ID                  # id
+    |	'(' expr ')'        # parens
+    ;
 
-MUL : '*' ; // assigns token name to '*' used above in grammar
-DIV : '/' ;
-ADD : '+' ;
-SUB : '-' ;
-ID : [a-zA-Z]+ ;
-INT : [0-9]+ ;
-NEWLINE:'\r'? '\n' ;
-WS : [ \t]+ -> skip;
+ID      : [a-zA-Z]+ ;   // 匹配标识符
+INT     : [0-9]+ ;      // 匹配整数
+WS      : [ \r\n\t]+ -> skip ; // 丢弃空白字符
+
+MUL     : '*' ;
+DIV     : '/' ;
+Add     : '+' ;
+SUB     : '-' ;

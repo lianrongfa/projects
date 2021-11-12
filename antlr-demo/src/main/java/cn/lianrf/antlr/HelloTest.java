@@ -20,7 +20,7 @@ import java.math.BigDecimal;
  * @version 1.0
  * @since 2021/10/28 11:00 上午
  */
-public class AppTest {
+public class HelloTest {
     public static void main(String[] args) throws Exception {
 
 
