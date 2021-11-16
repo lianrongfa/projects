@@ -1,23 +1,21 @@
+/*简单的计算器*/
 grammar Expr;
 /** 起始规则 语法分析器起点 */
-prog:	stat+ ;
+prog:   stat+ ;
 
-stat:   expr        # printExpr
-    |   ID '=' expr # assign
+stat:   expr NEWLINE
+    |   ID '=' expr NEWLINE
+    |   NEWLINE
     ;
 
-expr:	expr op=('*'|'/') expr # MulDiv
-    |	expr op=('+'|'-') expr # AddSub
-    |	INT                 # int
-    |   ID                  # id
-    |	'(' expr ')'        # parens
+expr:   expr ('*'|'/') expr
+    |   expr ('+'|'-') expr
+    |   INT
+    |   ID
+    |   '(' expr ')'
     ;
 
-ID      : [a-zA-Z]+ ;   // 匹配标识符
-INT     : [0-9]+ ;      // 匹配整数
-WS      : [ \r\n\t]+ -> skip ; // 丢弃空白字符
-
-MUL     : '*' ;
-DIV     : '/' ;
-Add     : '+' ;
-SUB     : '-' ;
+ID  :   [a-zA-Z]+ ;      // 匹配标识符
+INT :   [0-9]+ ;         // 匹配整数
+NEWLINE:'\r'? '\n' ;     // 换行符
+WS  :   [ \t]+ -> skip ; // 丢弃空白字符
