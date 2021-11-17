@@ -4,7 +4,7 @@ import CommonLexerRules;
 /** 起始规则 语法分析器起点 */
 prog:   stat+ ;
 
-stat:   expr ';'? NEWLINE            #printExpr
+stat:   expr NEWLINE            #printExpr
     |   ID '=' expr NEWLINE     #assign
     |   NEWLINE                 #blank
     ;
