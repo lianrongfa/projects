@@ -13,7 +13,7 @@ import java.util.Map;
 public class EvalVisitor extends LabeledExprBaseVisitor<Integer>{
 
     /** "memory" for our calculator; variable/value pairs go here */
-    Map<String, Integer> memory = new HashMap<String, Integer>();
+    Map<String, Integer> memory = new HashMap<>();
 
     /** ID '=' expr NEWLINE */
     @Override

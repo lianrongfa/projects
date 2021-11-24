@@ -3,16 +3,16 @@ grammar Expr;
 /** 起始规则 语法分析器起点 */
 prog:   stat+ ;
 
-stat:   expr NEWLINE
-    |   ID '=' expr NEWLINE
-    |   NEWLINE
+stat:   expr
+    |   ID '=' expr
     ;
 
-expr:   expr ('*'|'/') expr
+expr:   <assoc=right>expr ('*'|'/') expr
     |   expr ('+'|'-') expr
     |   INT
     |   ID
     |   '(' expr ')'
+    |   ID '(' expr ( ',' expr)* ')'
     ;
 
 ID  :   [a-zA-Z]+ ;      // 匹配标识符

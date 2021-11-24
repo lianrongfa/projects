@@ -1,0 +1,13 @@
+//指定protobuf编译的版本
+syntax="proto2";
+
+//设置class文件对应的package
+option java_package = "com.demo.serial";
+//设置class文件对应的类名
+option java_outer_classname="UserProtos";
+
+//这里的message代表给User类指定对应属性类型
+message User {
+  required string name=1;
+  required int32 age=2;
+}
