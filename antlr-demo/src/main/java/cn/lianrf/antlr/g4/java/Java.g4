@@ -551,13 +551,12 @@ expression
         |'/='<assoc=right>
         |'&='<assoc=right>
         |'|='<assoc=right>
-        |'='<assoc=right>
+        |'=' <assoc=right>
         |'>' '>' '='<assoc=right>
         |'>' '>' '>' '='<assoc=right>
         |'<' '<' '='<assoc=right>
         |'%='<assoc=right>
-        )
-        expression
+        ) expression
     ;
 
 primary

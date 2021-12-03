@@ -1,10 +1,10 @@
 package cn.lianrf.antlr;
 
-import cn.lianrf.antlr.out.expr.ExprBaseVisitor;
-import cn.lianrf.antlr.out.expr.ExprLexer;
-import cn.lianrf.antlr.out.expr.ExprParser;
-import cn.lianrf.antlr.out.hello.HelloLexer;
-import cn.lianrf.antlr.out.hello.HelloParser;
+import cn.lianrf.antlr.code.expr.ExprBaseVisitor;
+import cn.lianrf.antlr.code.expr.ExprLexer;
+import cn.lianrf.antlr.code.expr.ExprParser;
+import cn.lianrf.antlr.code.hello.HelloLexer;
+import cn.lianrf.antlr.code.hello.HelloParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.UnbufferedCharStream;
