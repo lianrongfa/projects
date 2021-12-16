@@ -16,6 +16,7 @@ public class LabeledExprTest {
 
         LabeledExprLexer labeledExprLexer = new LabeledExprLexer(new ANTLRInputStream(str));
 
+
         CommonTokenStream commonTokenStream = new CommonTokenStream(labeledExprLexer);
 
         LabeledExprParser labeledExprParser = new LabeledExprParser(commonTokenStream);

@@ -9,8 +9,11 @@
 */
 grammar Cymbol;
 
+/*@lexer::members {
+    int nesting=0;
+}*/
 
-file: (stat|varDecl|functionDecl)+;
+file: (simpStat|varDecl|functionDecl)+;
 
 functionDecl: type ID '('formalParameters?')' bolok; //void f(int x){...}
 
@@ -20,16 +23,21 @@ stat
     : bolok
     | varDecl
     | 'if' expr 'then' stat ('else' stat)?
-    | 'return' expr? END_LINE
-    | expr ':=' expr END_LINE//赋值
-    | expr END_LINE //调用
+    | 'return' expr? END
+    | expr ':=' expr END//赋值
+    | expr END //调用
     ;
+simpStat
+    :'if' expr 'then' simpStat ('else' simpStat)?
+    | expr END?
+    ;
+
 
 formalParameters: formalParameter (',' formalParameter)*;
 
 formalParameter: type ID;
 
-varDecl: type ID ('=' expr)? END_LINE;
+varDecl: type ID ('=' expr)? END;
 
 expr
     :   ID '(' exprList? ')'        # Call
@@ -62,5 +70,12 @@ ID : [a-zA-Z][a-zA-Z0-9_]*;
 INT : ('0'|[1-9][0-9]*);
 FLOAT_POINT: INT '.' INT EXP?;
 fragment EXP: [Ee] [+-]? INT;
-END_LINE: ';'|('\r'?'\n');
-WS  :   [ \r\t\u000C\n]+ -> channel(HIDDEN);
+
+//IGNORE_NEWLINE: '\r'?'\n' {nesting==1}? -> skip;
+END: ';'
+   //|//'\n'
+;
+//NEWLINE: '\r'?'\n';
+WS  :   [ \t\r\n]+ -> skip;
+
+

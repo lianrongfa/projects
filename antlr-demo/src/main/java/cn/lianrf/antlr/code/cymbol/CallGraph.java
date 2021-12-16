@@ -142,13 +142,16 @@ public class CallGraph {
 //        CharStream input = CharStreams.fromFileName("./t.cymbol");
 
         CymbolLexer lexer = new CymbolLexer(input);
+
+
+
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         CymbolParser parser = new CymbolParser(tokens);
         parser.setBuildParseTree(true);
         ParseTree tree = parser.file();
         // show tree in text form
 //        System.out.println(tree.toStringTree(parser));
-
+        parser.removeErrorListener();
         ParseTreeWalker walker = new ParseTreeWalker();
         FunctionListener collector = new FunctionListener();
         walker.walk(collector, tree);
