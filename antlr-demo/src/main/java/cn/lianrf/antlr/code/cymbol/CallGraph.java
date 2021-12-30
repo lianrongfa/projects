@@ -151,7 +151,7 @@ public class CallGraph {
         ParseTree tree = parser.file();
         // show tree in text form
 //        System.out.println(tree.toStringTree(parser));
-        parser.removeErrorListener();
+//        parser.removeErrorListener();
         ParseTreeWalker walker = new ParseTreeWalker();
         FunctionListener collector = new FunctionListener();
         walker.walk(collector, tree);

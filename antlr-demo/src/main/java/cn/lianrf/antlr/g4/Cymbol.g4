@@ -9,9 +9,6 @@
 */
 grammar Cymbol;
 
-/*@lexer::members {
-    int nesting=0;
-}*/
 
 file: (simpStat|varDecl|functionDecl)+;
 
@@ -28,8 +25,9 @@ stat
     | expr END //调用
     ;
 simpStat
-    :'if' expr 'then' simpStat ('else' simpStat)?
-    | expr END?
+    :'if' expr 'then' simpStat ('else' simpStat)? #simpIf
+    | expr END?                                   #simpExpr
+    | expr ':=' expr END?                         #simpAss
     ;
 
 
