@@ -61,6 +61,7 @@ type
 literal
        :INT             # Int
        |FLOAT_POINT     # FloatPoint
+       |STRING          # Str
        ;
 
 
@@ -76,4 +77,10 @@ END: ';'
 //NEWLINE: '\r'?'\n';
 WS  :   [ \t\r\n]+ -> skip;
 
-
+STRING : '"' (ESC|~["\\])* '"';
+//转义符
+fragment ESC: '\\' (["\\/bfnrt]|UNICODE);
+//unicode
+fragment UNICODE : 'u' HEX HEX HEX HEX;
+//16进制字符
+fragment HEX : [0-9a-fA-F];

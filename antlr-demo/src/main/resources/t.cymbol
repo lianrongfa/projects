@@ -1,4 +1,4 @@
-int main() { fact(); a(); }
+int main( { fact(); a() }
 
 float fact(int n) {
   print(n);

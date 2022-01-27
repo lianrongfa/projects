@@ -135,7 +135,6 @@ public class CallGraph {
 
     public static void main(String[] args) throws Exception {
 
-
         InputStream resourceAsStream = CallGraph.class.getResourceAsStream("/t.cymbol");
         CharStream input = CharStreams.fromStream(resourceAsStream);
 
