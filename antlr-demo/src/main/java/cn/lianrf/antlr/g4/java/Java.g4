@@ -519,23 +519,11 @@ constantExpression
 expression
     :   primary
     |   expression '.' Identifier
-    |   expression '.' 'this'
-    |   expression '.' 'super' '(' expressionList? ')'
-    |   expression '.' 'new' Identifier '(' expressionList? ')'
-    |   expression '.' 'super' '.' Identifier arguments?
-    |   expression '.' explicitGenericInvocation
     |   expression '[' expression ']'
     |   expression '(' expressionList? ')'
-    |   expression ('++' | '--')
-    |   ('+'|'-'|'++'|'--') expression
-    |   ('~'|'!') expression
-    |   '(' type ')' expression
-    |   'new' creator
     |   expression ('*'|'/'|'%') expression
     |   expression ('+'|'-') expression
-    |   expression ('<' '<' | '>' '>' '>' | '>' '>') expression
     |   expression ('<' '=' | '>' '=' | '>' | '<') expression
-    |   expression 'instanceof' type
     |   expression ('==' | '!=') expression
     |   expression '&' expression
     |   expression '^' expression
@@ -543,20 +531,6 @@ expression
     |   expression '&&' expression
     |   expression '||' expression
     |   expression '?' expression ':' expression
-    |   expression
-        ('^='<assoc=right>
-        |'+='<assoc=right>
-        |'-='<assoc=right>
-        |'*='<assoc=right>
-        |'/='<assoc=right>
-        |'&='<assoc=right>
-        |'|='<assoc=right>
-        |'=' <assoc=right>
-        |'>' '>' '='<assoc=right>
-        |'>' '>' '>' '='<assoc=right>
-        |'<' '<' '='<assoc=right>
-        |'%='<assoc=right>
-        ) expression
     ;
 
 primary

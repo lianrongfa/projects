@@ -7,9 +7,19 @@
       return x * fact(x-1);
   }
 */
-grammar AgileExp;
+grammar TierExp;
 
-file: simpStat;
+@parser::header {
+import com.lianrf.tierexp.exception.ErrorMessage;
+import com.lianrf.tierexp.interpreter.Interpreter;
+import com.lianrf.tierexp.interpreter.struct.InterpreterFactory;
+import com.lianrf.tierexp.interpreter.struct.InterpreterFactoryBuild;
+}
+@parser::members {
+private InterpreterFactory interpreterFactor=InterpreterFactoryBuild.build();
+}
+
+file : simpStat;
 
 simpStat
     :statIfJava END?  # JavaIf
@@ -29,30 +39,43 @@ stat
     | expr END
     ;
 
-expr
-    :  '(' expr ')'                   # Parens
-    |   literal                       # Literals
-    |   IDENTIFIER                    # Id
-    |   expr '.' IDENTIFIER           # Attr
-    |   expr '[' expr ']'             # Index
-    |   expr '(' exprList? ')'        # Call
-    |   ('+'|'-') expr                # Negate
-    |   '!' expr                      # Not
-    |   expr '%'                      # Percent
-    |   expr ('*'|'/') expr           # MultDiv
-    |   expr ('+'|'-') expr           # AddSub
-    |   expr COMP_OP expr             # Condition
-    |   expr ('&&'|'||') expr         # AndOr
+expr locals[Interpreter interpreter]
+    @after{
+        $interpreter=interpreterFactor.create($ctx);
+    }
+    :  '(' expr ')'                   # ExprParens
+    |  '(' expr ')' ')'+              # ExprParensError
+    |   literal                       # ExprLiterals
+    |   Identifier                    # ExprId
+    |   expr '.' Identifier           # ExprAttr
+    |   expr '[' expr ']'             # ExprIndex
+    |   expr '(' exprList? ')'        # ExprCall
+    |   expr '(' exprList?
+    {
+        notifyErrorListeners(ErrorMessage.getError1());
+    }
+    # ExprCallError1
+    |   expr '(' exprList?')' (')')+
+    {
+        notifyErrorListeners(ErrorMessage.getError2());
+    }
+    # ExprCallError2
+    |   ('+'|'-') expr                # ExprNegate
+    |   '!' expr                      # ExprNot
+    |   expr '%'                      # ExprPercent
+    |   expr ('*'|'/') expr           # ExprMultDiv
+    |   expr ('+'|'-') expr           # ExprAddSub
+    |   expr ('<='|'>='|'>'|'<') expr # ExprCondition1
+    |   expr ('=' | '!='|'<>') expr   # ExprCondition2
+    |   expr ('&&'|'||') expr         # ExprAndOr
     ;
-
-
-//comparison:expr (COMP_OP expr)?;
 
 exprList: expr (','expr)*;//参数列表
 
 literal:number          # Num
        |STRING          # Str
        ;
+
 number:
     INT             # Int
     |FLOAT_POINT    # FloatPoint
@@ -64,18 +87,16 @@ COMP_OP: '<'|'>'|'='|'>='|'<='|'!='|'<>';
 
 fragment EXP: [Ee] [+-]? INT;
 
-//IGNORE_NEWLINE: '\r'?'\n' {nesting==1}? -> skip;
 END: ';';
-//NEWLINE: '\r'?'\n';
-WS  :   [ \t\r\n]+ -> skip;
+WS  :  [ \t\r\n]+ -> skip;
 
 STRING : '"' (ESC|~["\\])* '"'
        | '\'' (ESC|~['\\])* '\''
        ;
 
-IDENTIFIER
+Identifier
          :LETTER (LETTER|JAVA_ID_DIGIT)*
-         | '#' IDENTIFIER '#'
+         | '#' Identifier '#'
          ;
 
 LETTER

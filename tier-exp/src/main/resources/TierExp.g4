@@ -9,7 +9,17 @@
 */
 grammar TierExp;
 
-file: simpStat;
+@parser::header {
+import com.lianrf.tierexp.exception.ErrorMessage;
+import com.lianrf.tierexp.interpreter.Interpreter;
+import com.lianrf.tierexp.interpreter.struct.InterpreterFactory;
+import com.lianrf.tierexp.interpreter.struct.InterpreterFactoryBuild;
+}
+@parser::members {
+private InterpreterFactory interpreterFactor=InterpreterFactoryBuild.build();
+}
+
+file : simpStat;
 
 simpStat
     :statIfJava END?  # JavaIf
@@ -29,30 +39,49 @@ stat
     | expr END
     ;
 
-expr
-    :  '(' expr ')'                   # Parens
-    |   literal                       # Literals
-    |   Identifier                    # Id
-    |   expr '.' Identifier           # Attr
-    |   expr '[' expr ']'             # Index
-    |   expr '(' exprList? ')'        # Call
-    |   ('+'|'-') expr                # Negate
-    |   '!' expr                      # Not
-    |   expr '%'                      # Percent
-    |   expr ('*'|'/') expr           # MultDiv
-    |   expr ('+'|'-') expr           # AddSub
-    |   expr COMP_OP expr             # Condition
-    |   expr ('&&'|'||') expr         # AndOr
+expr locals[Interpreter interpreter]
+    : '(' expr ')'
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprParens
+    | '(' expr ')' ')'+
+        {notifyErrorListeners(ErrorMessage.getError1());}                   # ExprParensError
+    | literal
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprLiterals
+    | Identifier
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprId
+    | expr '.' Identifier
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprAttr
+    | expr '[' expr ']'
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprIndex
+    | expr '(' exprList? ')'
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprCall
+    | expr '(' exprList?
+        {notifyErrorListeners(ErrorMessage.getError1());}                   # ExprCallError1
+    | expr '(' exprList?')' (')')+
+        {notifyErrorListeners(ErrorMessage.getError2());}                   # ExprCallError2
+    | ('+'|'-') expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprNegate
+    | '!' expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprNot
+    | expr '%'
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprPercent
+    | expr ('*'|'/') expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprMultDiv
+    | expr ('+'|'-') expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprAddSub
+    | expr ('<='|'>='|'>'|'<') expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprCondition1
+    | expr ('=' | '!='|'<>') expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprCondition2
+    | expr ('&&'|'||') expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprAndOr
     ;
-
-
-//comparison:expr (COMP_OP expr)?;
 
 exprList: expr (','expr)*;//参数列表
 
 literal:number          # Num
        |STRING          # Str
        ;
+
 number:
     INT             # Int
     |FLOAT_POINT    # FloatPoint
@@ -64,10 +93,8 @@ COMP_OP: '<'|'>'|'='|'>='|'<='|'!='|'<>';
 
 fragment EXP: [Ee] [+-]? INT;
 
-//IGNORE_NEWLINE: '\r'?'\n' {nesting==1}? -> skip;
 END: ';';
-//NEWLINE: '\r'?'\n';
-WS  :   [ \t\r\n]+ -> skip;
+WS  :  [ \t\r\n]+ -> skip;
 
 STRING : '"' (ESC|~["\\])* '"'
        | '\'' (ESC|~['\\])* '\''

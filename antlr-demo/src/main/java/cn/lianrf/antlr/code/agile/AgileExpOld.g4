@@ -7,18 +7,18 @@
       return x * fact(x-1);
   }
 */
-grammar AgileExp;
+grammar AgileExpOld;
 
 file: simpStat;
 
 simpStat
-    :statIfJava END?  # JavaIf
-    |statIf END?      # SimpIf
-    |expr END?        # SimpExp
+    :statIfJava END?
+    |statIf END?
+    |expr END?
     ;
 
-statIfJava: 'if' '(' expr ')' (block|expr) ('else' (statIfJava|block|expr))? ;
-statIf:'if' expr 'then' (block|expr) ('else' (statIf|block|expr))?;
+statIfJava: IF '(' comparison ')' (block|expr) ('else' (statIfJava|block|expr))? ;
+statIf:IF comparison 'then' (block|expr) ('else' (statIf|block|expr))?;
 
 block: '{' stat* '}';
 
@@ -30,10 +30,10 @@ stat
     ;
 
 expr
-    :  '(' expr ')'                   # Parens
-    |   literal                       # Literals
-    |   IDENTIFIER                    # Id
+    :   primary                       # basic
+//  |   '$' '(' expr ')'              # Dot
     |   expr '.' IDENTIFIER           # Attr
+    |   '$' '(' expr ')'              # Dot
     |   expr '[' expr ']'             # Index
     |   expr '(' exprList? ')'        # Call
     |   ('+'|'-') expr                # Negate
@@ -42,11 +42,15 @@ expr
     |   expr ('*'|'/') expr           # MultDiv
     |   expr ('+'|'-') expr           # AddSub
     |   expr COMP_OP expr             # Condition
-    |   expr ('&&'|'||') expr         # AndOr
     ;
 
+primary
+       :  '(' expr ')' # Parens
+       |   literal     # Literals
+       |   IDENTIFIER  # Id
+       ;
 
-//comparison:expr (COMP_OP expr)?;
+comparison:expr (COMP_OP expr)?;
 
 exprList: expr (','expr)*;//参数列表
 
@@ -117,11 +121,9 @@ fragment JAVA_ID_DIGIT
        '\u0ed0'..'\u0ed9' |
        '\u1040'..'\u1049'
    ;
-fragment IF : 'if';
-fragment BLOCK_LEFT:'{';
-fragment BLOCK_RIGHT:'}';
+IF : 'if';
+BLOCK_LEFT:'{';
+BLOCK_RIGHT:'}';
 
-fragment ROUND_LEFT:'(';
-fragment ROUND_RIGHT:')';
-fragment AND:'&&';
-fragment OR:'||';
+ROUND_LEFT:'(';
+ROUND_RIGHT:')';
