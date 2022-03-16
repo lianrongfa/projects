@@ -1,7 +1,8 @@
 package com.lianrf.tierexp.interpreter.struct;
 
-import com.lianrf.tierexp.interpreter.AddSubInterpreter;
+import com.lianrf.tierexp.interpreter.CentreInterpreter;
 import com.lianrf.tierexp.interpreter.ConstInterpreter;
+import com.lianrf.tierexp.interpreter.IndexInterpreter;
 import com.lianrf.tierexp.interpreter.Interpreter;
 import com.lianrf.tierexp.interpreter.ParensInterpreter;
 import com.lianrf.tierexp.interpreter.VarInterpreter;
@@ -32,7 +33,10 @@ public class SimpleInterpreterFactory implements InterpreterFactory {
             return new ConstInterpreter(tree);
         }
         if ("com.lianrf.tierexp.parser.TierExpParser$ExprAddSubContext".equals(name)) {
-            return new AddSubInterpreter(tree);
+            return new CentreInterpreter(tree);
+        }
+        if ("com.lianrf.tierexp.parser.TierExpParser$ExprIndexContext".equals(name)) {
+            return new IndexInterpreter(tree);
         }
 
 

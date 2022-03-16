@@ -1,6 +1,7 @@
 package com.lianrf.tierexp;
 
-import com.lianrf.tierexp.exception.ParseException;
+import com.lianrf.tierexp.context.MapContext;
+import com.lianrf.tierexp.exception.TierParseException;
 import com.lianrf.tierexp.interpreter.ConstInterpreter;
 import com.lianrf.tierexp.interpreter.Interpreter;
 import com.lianrf.tierexp.parser.TierExpBaseVisitor;
@@ -12,6 +13,7 @@ import org.antlr.v4.runtime.tree.RuleNode;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -60,10 +62,18 @@ public class TierVisitor implements InvocationHandler {
                 Object obj = varHandle.get(tree);
                 Interpreter interpreter = (Interpreter) obj;
 
-                return interpreter.interpret(null, tree, tierExpVisitor);
+                MapContext context = new MapContext();
+
+                context.set("a",new int[][]{{1,2,3},{4,5,6},{7,8,9}});
+
+                return interpreter.interpret(context, tree, tierExpVisitor);
 
             } catch (NoSuchFieldException e) {
-                return method.invoke(tierExpVisitor, args);
+                try {
+                    return method.invoke(tierExpVisitor, args);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -78,7 +88,7 @@ public class TierVisitor implements InvocationHandler {
                 return (ParseTree) arg;
             }
         }
-        throw new ParseException("未获取到解析树");
+        throw new TierParseException("未获取到解析树");
     }
 
     public static void main(String[] args) {

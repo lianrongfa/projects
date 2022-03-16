@@ -1,6 +1,7 @@
 package com.lianrf.tierexp.instruction.op;
 
 import com.lianrf.tierexp.context.ExpContext;
+import com.lianrf.tierexp.parser.TierExpVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
@@ -21,7 +22,7 @@ public interface Operator {
     String getName();
 
 
-    Object call(ParseTree tree, ExpContext context);
+    Object call(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor);
 
 
     /**

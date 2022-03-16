@@ -48,7 +48,7 @@ expr locals[Interpreter interpreter]
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprLiterals
     | Identifier
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprId
-    | expr '.' Identifier
+    | expr op='.' Identifier
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprAttr
     | expr '[' expr ']'
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprIndex
@@ -62,15 +62,15 @@ expr locals[Interpreter interpreter]
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprNegate
     | '!' expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprNot
-    | expr '%'
-        {$interpreter=interpreterFactor.create($ctx);}                      # ExprPercent
+    | expr 'mod' expr
+        {$interpreter=interpreterFactor.create($ctx);}                      # ExprMod
     | expr ('*'|'/') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprMultDiv
     | expr ('+'|'-') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprAddSub
     | expr ('<='|'>='|'>'|'<') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprCondition1
-    | expr ('=' | '!='|'<>') expr
+    | expr ('='|'!='|'<>') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprCondition2
     | expr ('&&'|'||') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprAndOr
@@ -87,9 +87,8 @@ number:
     |FLOAT_POINT    # FloatPoint
     ;
 
-INT : ('0'|[1-9][0-9]*);
+INT : ('0'|[1-9][0-9]*) '%'?;
 FLOAT_POINT: INT '.' INT EXP?;
-COMP_OP: '<'|'>'|'='|'>='|'<='|'!='|'<>';
 
 fragment EXP: [Ee] [+-]? INT;
 

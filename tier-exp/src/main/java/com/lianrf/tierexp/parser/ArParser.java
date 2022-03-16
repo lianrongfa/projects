@@ -2,7 +2,7 @@ package com.lianrf.tierexp.parser;
 
 import com.lianrf.tierexp.InstructionNode;
 import com.lianrf.tierexp.TierExpEngine;
-import com.lianrf.tierexp.exception.ParseException;
+import com.lianrf.tierexp.exception.TierParseException;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -50,7 +50,7 @@ public class ArParser implements IParser {
         try {
             tree = expParser.file();
         } catch (RecognitionException e) {
-            throw new ParseException(e.getMessage(), e);
+            throw new TierParseException(e.getMessage(), e);
         }
 
         if (errorStrategy.hasToken()) {

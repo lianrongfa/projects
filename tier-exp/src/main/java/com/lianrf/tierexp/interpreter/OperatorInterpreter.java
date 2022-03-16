@@ -15,15 +15,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class OperatorInterpreter implements Interpreter{
     private Operator operator;
 
-
-
-
-
-
     @Override
     public Object interpret(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor) {
-
-
-        return operator.call(node,context);
+        return operator.call(context,node,visitor);
     }
 }

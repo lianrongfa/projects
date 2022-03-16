@@ -1,10 +1,14 @@
 package com.lianrf.tierexp.interpreter;
 
 
+import com.lianrf.tierexp.common.OperatorNumber;
 import com.lianrf.tierexp.context.ExpContext;
+import com.lianrf.tierexp.parser.Configuration;
 import com.lianrf.tierexp.parser.TierExpParser;
 import com.lianrf.tierexp.parser.TierExpVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.math.BigDecimal;
 
 public class ConstInterpreter implements Interpreter {
 
@@ -14,20 +18,21 @@ public class ConstInterpreter implements Interpreter {
     }
 
     public ConstInterpreter(ParseTree node) {
-
         ParseTree child = node.getChild(0);
 
         String text = child.getText();
 
+        Configuration cfg = new Configuration();
+
         if (child instanceof TierExpParser.NumContext) {
-
-
-            this.value = Double.valueOf(text);
-        }
-        if (child instanceof TierExpParser.StrContext) {
+            if (cfg.isPrecise()) {
+                this.value = OperatorNumber.parseBigDecimal(text);
+            } else {
+                this.value = OperatorNumber.parse(text);
+            }
+        } else {
             this.value = text;
         }
-
     }
 
     public ConstInterpreter(ExpContext context, ParseTree node) {

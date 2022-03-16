@@ -1,6 +1,7 @@
 package com.lianrf.tierexp.instruction.op;
 
 import com.lianrf.tierexp.context.ExpContext;
+import com.lianrf.tierexp.parser.TierExpVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
@@ -10,10 +11,16 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * @version 1.0
  * @since 2022/3/11 3:08 下午
  */
-public abstract class OperatorAbs implements Operator{
+public abstract class OperatorAbs implements Operator {
 
     protected String name;
 
+    protected String aliasName;
+
+    /**
+     * 是否需要高精度计算
+     */
+    protected boolean isPrecise;
 
     @Override
     public String getName() {
@@ -21,7 +28,9 @@ public abstract class OperatorAbs implements Operator{
     }
 
     @Override
-    public Object call(ParseTree tree, ExpContext context) {
+    public Object call(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor) {
+
+
         return null;
     }
 
@@ -30,6 +39,6 @@ public abstract class OperatorAbs implements Operator{
         return null;
     }
 
-
+    public abstract Object call(Object[] args);
 
 }

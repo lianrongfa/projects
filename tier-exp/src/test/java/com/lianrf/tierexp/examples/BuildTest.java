@@ -20,7 +20,7 @@ public class BuildTest {
         TierExpEngineImpl engine = new TierExpEngineImpl();
 
 //        InstructionNode parse = engine.parse("(a+b+c)/2");
-        Object run = engine.run("(1+2+3)+2");
+        Object run = engine.run("a[1][3]");
         System.out.println(run);
 
 //        System.out.println(parse);

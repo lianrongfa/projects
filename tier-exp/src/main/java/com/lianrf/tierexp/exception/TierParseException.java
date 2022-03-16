@@ -7,16 +7,16 @@ package com.lianrf.tierexp.exception;
  * @version 1.0
  * @since 2022/2/24 3:15 下午
  */
-public class ParseException extends RuntimeException {
+public class TierParseException extends TierException {
 
-    public ParseException() {
+    public TierParseException() {
     }
 
-    public ParseException(String message) {
+    public TierParseException(String message) {
         super(message);
     }
 
-    public ParseException(String message, Throwable cause) {
+    public TierParseException(String message, Throwable cause) {
         super(message, cause);
     }
 }

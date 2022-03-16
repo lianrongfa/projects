@@ -11,11 +11,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * @version 1.0
  * @since 2022/3/11 10:12 上午
  */
-public class AddSubInterpreter implements Interpreter {
+public class CentreInterpreter implements Interpreter {
 
 
-
-    public AddSubInterpreter(ParseTree node) {
+    public CentreInterpreter(ParseTree node) {
 
     }
 
@@ -30,6 +29,6 @@ public class AddSubInterpreter implements Interpreter {
 
         Object rightV = visitor.visit(right);
 
-        return Double.parseDouble(leftV.toString())+Double.parseDouble(rightV.toString());
+        return Double.parseDouble(leftV.toString()) + Double.parseDouble(rightV.toString());
     }
 }
