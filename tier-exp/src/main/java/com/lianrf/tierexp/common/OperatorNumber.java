@@ -23,6 +23,9 @@ public abstract class OperatorNumber {
     public static final byte NUMBER_TYPE_DOUBLE = 6;
     public static final byte NUMBER_TYPE_BIG_DECIMAL = 7;
 
+    public static final String TIP_ERROR_DATA_TYPE = "错误的数值格式";
+
+
     private OperatorNumber() {
     }
 
@@ -40,19 +43,20 @@ public abstract class OperatorNumber {
      * @return BigDecimal数值
      */
     public static Number parseBigDecimal(String text) {
+
         if (text.charAt(text.length() - 1) == '%') {
             text = text.substring(0, text.length() - 1);
             try {
                 BigDecimal decimal = new BigDecimal(text);
                 return decimal.divide(BigDecimal.valueOf(100));
             } catch (NumberFormatException e) {
-                throw new TierParseException("错误的数值格式", e);
+                throw new TierParseException(TIP_ERROR_DATA_TYPE, e);
             }
         } else {
             try {
                 return new BigDecimal(text);
             } catch (NumberFormatException e) {
-                throw new TierParseException("错误的数值格式", e);
+                throw new TierParseException(TIP_ERROR_DATA_TYPE, e);
             }
         }
     }
@@ -177,7 +181,7 @@ public abstract class OperatorNumber {
         public static Number addNormal(Number op1, Number op2) {
             int type1 = OperatorNumber.getSeq(op1.getClass());
             int type2 = OperatorNumber.getSeq(op2.getClass());
-            int type = type1 > type2 ? type1 : type2;
+            int type = Math.max(type1, type2);
             if (type == NUMBER_TYPE_BYTE) return op1.byteValue() + op2.byteValue();
             if (type == NUMBER_TYPE_SHORT) return op1.shortValue() + op2.shortValue();
             if (type == NUMBER_TYPE_INT) return op1.intValue() + op2.intValue();
