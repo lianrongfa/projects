@@ -1,7 +1,8 @@
 package com.lianrf.tierexp;
 
-import com.lianrf.tierexp.context.MapContext;
+import com.lianrf.tierexp.common.ExceptionUtil;
 import com.lianrf.tierexp.exception.TierParseException;
+import com.lianrf.tierexp.exception.TierRunException;
 import com.lianrf.tierexp.interpreter.ConstInterpreter;
 import com.lianrf.tierexp.interpreter.Interpreter;
 import com.lianrf.tierexp.parser.TierExpBaseVisitor;
@@ -9,11 +10,12 @@ import com.lianrf.tierexp.parser.TierExpParser;
 import com.lianrf.tierexp.parser.TierExpVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -25,6 +27,8 @@ import java.lang.reflect.Proxy;
  * @since 2022/3/2 4:40 下午
  */
 public class TierVisitor implements InvocationHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(TierVisitor.class);
 
     private final TierExpVisitor<Object> tierExpVisitor;
 
@@ -55,31 +59,33 @@ public class TierVisitor implements InvocationHandler {
             }
             ParseTree tree = get(args);
 
-            MethodHandles.Lookup lookup = MethodHandles.lookup();
+            MethodHandles.Lookup lookup = MethodHandles.publicLookup();
 
+            Interpreter interpreter = null;
             try {
                 VarHandle varHandle = lookup.findVarHandle(tree.getClass(), "interpreter", Interpreter.class);
                 Object obj = varHandle.get(tree);
-                Interpreter interpreter = (Interpreter) obj;
-
-                MapContext context = new MapContext();
-
-                context.set("a",new int[][]{{1,2,3},{4,5,6},{7,8,9}});
-
-                return interpreter.interpret(context, tree, tierExpVisitor);
+                interpreter = (Interpreter) obj;
+                RunEnvironment environment = RunEnvironment.get();
+                return interpreter.interpret(environment.getContext(), tree, tierExpVisitor);
 
             } catch (NoSuchFieldException e) {
-                try {
-                    return method.invoke(tierExpVisitor, args);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                //调用method.invoke(tierExpVisitor, args);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                throw new TierRunException("非法访问", e);
+            }/* catch (TierParseException | TierRunException e) {
+                throw new TierRunException(e.getMessage());
+            }*/ catch (Exception e) {
+                logger.error("解释器运行错误,当前解释器:{}",interpreter);
+                throw e;
             }
         }
 
-        return method.invoke(tierExpVisitor, args);
+        try {
+            return method.invoke(tierExpVisitor, args);
+        } catch (Exception e) {
+            throw ExceptionUtil.unwrapThrowable(e);
+        }
     }
 
     private ParseTree get(Object[] args) {

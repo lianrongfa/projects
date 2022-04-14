@@ -4,11 +4,12 @@ import com.lianrf.tierexp.exception.TierParseException;
 import com.lianrf.tierexp.exception.TierRunException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
 /**
- * OperatorOfNumber
+ * OperatorNumber
  *
  * @author lianrf
  * @version 1.0
@@ -25,13 +26,16 @@ public abstract class OperatorNumber {
 
     public static final String TIP_ERROR_DATA_TYPE = "错误的数值格式";
 
+    public static final BigDecimal BIG_DECIMAL_LONG_MAX = new BigDecimal(Long.MAX_VALUE);
+    public static final BigDecimal BIG_DECIMAL_LONG_MIN = new BigDecimal(Long.MIN_VALUE);
+    public static final BigDecimal BIG_DECIMAL_INTEGER_MAX = new BigDecimal(Integer.MAX_VALUE);
+    public static final BigDecimal BIG_DECIMAL_INTEGER_MIN = new BigDecimal(Integer.MIN_VALUE);
 
     private OperatorNumber() {
     }
 
     public static void main(String[] args) {
-
-        Number number = parseBigDecimal("1.1%");
+        BigDecimal number = new BigDecimal("10").divide(new BigDecimal("3"), 10, RoundingMode.HALF_UP);
 
         System.out.println(number);
     }
@@ -121,11 +125,35 @@ public abstract class OperatorNumber {
         }
     }
 
+    public static Number subtract(Object op1, Object op2, boolean isPrecise) {
+        if (isPrecise) {
+            return PreciseNumberOperator.subtractPrecise((Number) op1, (Number) op2);
+        } else {
+            return NormalNumberOperator.subtractNormal((Number) op1, (Number) op2);
+        }
+    }
+
+    public static Number multiply(Object op1, Object op2, boolean isPrecise) {
+        if (isPrecise) {
+            return PreciseNumberOperator.multiplyPrecise((Number) op1, (Number) op2);
+        } else {
+            return NormalNumberOperator.multiplyNormal((Number) op1, (Number) op2);
+        }
+    }
+
+    public static Number divide(Object op1, Object op2, boolean isPrecise) {
+        if (isPrecise) {
+            return PreciseNumberOperator.dividePrecise((Number) op1, (Number) op2);
+        } else {
+            return NormalNumberOperator.divideNormal((Number) op1, (Number) op2);
+        }
+    }
+
     /**
      * 获取数据类型精度顺序
      *
-     * @param aClass
-     * @return
+     * @param aClass c
+     * @return mark
      */
     public static int getSeq(Class<?> aClass) {
         if (aClass == Byte.class || aClass == byte.class) return NUMBER_TYPE_BYTE;
@@ -139,35 +167,72 @@ public abstract class OperatorNumber {
     }
 
     public static class PreciseNumberOperator {
+
+        public static final int SCALE_SIZE = 10;
+
         private PreciseNumberOperator() {
         }
 
+        /**
+         * 高精度 +
+         *
+         * @param op1 op1
+         * @param op2 op2
+         * @return result
+         */
         public static Number addPrecise(Number op1, Number op2) {
+            BigDecimal left = numberToB(op1);
+            BigDecimal right = numberToB(op2);
+            return toNumber(left.add(right));
+        }
+
+        /**
+         * 高精度 -
+         *
+         * @param op1 op1
+         * @param op2 op2
+         * @return result
+         */
+        public static Number subtractPrecise(Number op1, Number op2) {
+            BigDecimal left = numberToB(op1);
+            BigDecimal right = numberToB(op2);
+            return toNumber(left.subtract(right));
+        }
+
+        /**
+         * 高精度 *
+         *
+         * @param op1 op1
+         * @param op2 op2
+         * @return result
+         */
+        public static Number multiplyPrecise(Number op1, Number op2) {
+            BigDecimal left = numberToB(op1);
+            BigDecimal right = numberToB(op2);
+            return toNumber(left.multiply(right));
+        }
+
+        /**
+         * 高精度 /
+         *
+         * @param op1 op1
+         * @param op2 op2
+         * @return result
+         */
+        public static Number dividePrecise(Number op1, Number op2) {
+            BigDecimal left = numberToB(op1);
+            BigDecimal right = numberToB(op2);
+            return toNumber(left.divide(right, SCALE_SIZE, RoundingMode.HALF_UP));
+        }
+
+        private static BigDecimal numberToB(Number op1) {
             BigDecimal result;
             if (op1 instanceof BigDecimal) {
-                if (op2 instanceof BigDecimal) {
-                    result = ((BigDecimal) op1).add((BigDecimal) op2);
-                } else {
-                    result = ((BigDecimal) op1).add(new BigDecimal(op2.toString()));
-                }
+                result = (BigDecimal) op1;
             } else {
-                if (op2 instanceof BigDecimal) {
-                    result = new BigDecimal(op1.toString()).add((BigDecimal) op2);
-                } else {
-                    result = new BigDecimal(op1.toString()).add(new BigDecimal(op2.toString()));
-                }
+                result = new BigDecimal(op1.toString());
             }
-            if (result.scale() == 0) {
-                long tempLong = result.longValue();
-                if (tempLong <= Integer.MAX_VALUE && tempLong >= Integer.MIN_VALUE) {
-                    return (int) tempLong;
-                } else {
-                    return tempLong;
-                }
-            } else {
-                return result;
-            }
-
+            return result;
         }
     }
 
@@ -190,7 +255,74 @@ public abstract class OperatorNumber {
             if (type == NUMBER_TYPE_DOUBLE) return op1.doubleValue() + op2.doubleValue();
             if (type == NUMBER_TYPE_BIG_DECIMAL)
                 return new BigDecimal(op1.toString()).add(new BigDecimal(op2.toString()));
-            throw new TierRunException();
+            throw new TierRunException("不支持的对象执行了'+'操作");
         }
+
+
+        public static Number subtractNormal(Number op1, Number op2) {
+            int type1 = OperatorNumber.getSeq(op1.getClass());
+            int type2 = OperatorNumber.getSeq(op2.getClass());
+            int type = Math.max(type1, type2);
+            if (type == NUMBER_TYPE_BYTE) return op1.byteValue() - op2.byteValue();
+            if (type == NUMBER_TYPE_SHORT) return op1.shortValue() - op2.shortValue();
+            if (type == NUMBER_TYPE_INT) return op1.intValue() - op2.intValue();
+            if (type == NUMBER_TYPE_LONG) return op1.longValue() - op2.longValue();
+            if (type == NUMBER_TYPE_FLOAT) return op1.floatValue() - op2.floatValue();
+            if (type == NUMBER_TYPE_DOUBLE) return op1.doubleValue() - op2.doubleValue();
+            if (type == NUMBER_TYPE_BIG_DECIMAL)
+                return new BigDecimal(op1.toString()).subtract(new BigDecimal(op2.toString()));
+            throw new TierRunException("不支持的对象执行了'-'操作");
+        }
+
+        public static Number multiplyNormal(Number op1, Number op2) {
+            int type1 = OperatorNumber.getSeq(op1.getClass());
+            int type2 = OperatorNumber.getSeq(op2.getClass());
+            int type = Math.max(type1, type2);
+            if (type == NUMBER_TYPE_BYTE) return op1.byteValue() * op2.byteValue();
+            if (type == NUMBER_TYPE_SHORT) return op1.shortValue() * op2.shortValue();
+            if (type == NUMBER_TYPE_INT) return op1.intValue() * op2.intValue();
+            if (type == NUMBER_TYPE_LONG) return op1.longValue() * op2.longValue();
+            if (type == NUMBER_TYPE_FLOAT) return op1.floatValue() * op2.floatValue();
+            if (type == NUMBER_TYPE_DOUBLE) return op1.doubleValue() * op2.doubleValue();
+            if (type == NUMBER_TYPE_BIG_DECIMAL)
+                return new BigDecimal(op1.toString()).multiply(new BigDecimal(op2.toString()));
+            throw new TierRunException("不支持的对象执行了'*'操作");
+        }
+
+        public static Number divideNormal(Number op1, Number op2) {
+            int type1 = OperatorNumber.getSeq(op1.getClass());
+            int type2 = OperatorNumber.getSeq(op2.getClass());
+            int type = Math.max(type1, type2);
+            if (type == NUMBER_TYPE_BYTE) return op1.byteValue() / op2.byteValue();
+            if (type == NUMBER_TYPE_SHORT) return op1.shortValue() / op2.shortValue();
+            if (type == NUMBER_TYPE_INT) return op1.intValue() / op2.intValue();
+            if (type == NUMBER_TYPE_LONG) return op1.longValue() / op2.longValue();
+            if (type == NUMBER_TYPE_FLOAT) return op1.floatValue() / op2.floatValue();
+            if (type == NUMBER_TYPE_DOUBLE) return op1.doubleValue() / op2.doubleValue();
+            if (type == NUMBER_TYPE_BIG_DECIMAL) {
+                return new BigDecimal(op1.toString()).divide(new BigDecimal(op2.toString())
+                        , PreciseNumberOperator.SCALE_SIZE, RoundingMode.HALF_UP);
+            }
+            throw new TierRunException("不支持的对象执行了'/'操作");
+        }
+    }
+
+    /**
+     * BigDecimal to number
+     *
+     * @param number BigDecimal
+     * @return number
+     */
+    protected static Number toNumber(BigDecimal number) {
+        if (number.scale() == 0) {
+            if (number.compareTo(BIG_DECIMAL_INTEGER_MAX) < 1
+                    && number.compareTo(BIG_DECIMAL_INTEGER_MIN) > -1) {
+                return number.intValue();
+            } else if (number.compareTo(BIG_DECIMAL_LONG_MAX) < 1
+                    && number.compareTo(BIG_DECIMAL_LONG_MIN) > -1) {
+                return number.longValue();
+            }
+        }
+        return number;
     }
 }

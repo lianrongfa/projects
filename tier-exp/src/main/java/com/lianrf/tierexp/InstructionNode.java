@@ -1,6 +1,7 @@
 package com.lianrf.tierexp;
 
 import com.lianrf.tierexp.context.ExpContext;
+import com.lianrf.tierexp.exception.TierRunException;
 import com.lianrf.tierexp.parser.TierExpVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -19,8 +20,17 @@ public class InstructionNode {
         this.tree = tree;
     }
 
-    public Object accept(TierExpVisitor<?> visitor, ExpContext ctx) {
-        return visitor.visit(tree);
+    public Object accept(TierExpVisitor<?> visitor, ExpContext ctx, TierExpEngineImpl engine) {
+        RunEnvironment.putAll(engine, ctx);
+        Object result;
+        try {
+            result = visitor.visit(tree);
+        } catch (Exception e) {
+            throw new TierRunException(e.getMessage(), e);
+        } finally {
+            RunEnvironment.clear();
+        }
+        return result;
     }
 
 

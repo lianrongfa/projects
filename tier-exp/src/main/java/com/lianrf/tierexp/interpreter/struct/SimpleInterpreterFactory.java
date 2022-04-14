@@ -1,13 +1,18 @@
 package com.lianrf.tierexp.interpreter.struct;
 
-import com.lianrf.tierexp.interpreter.CentreInterpreter;
+import com.lianrf.tierexp.exception.TierParseException;
 import com.lianrf.tierexp.interpreter.ConstInterpreter;
 import com.lianrf.tierexp.interpreter.IndexInterpreter;
 import com.lianrf.tierexp.interpreter.Interpreter;
+import com.lianrf.tierexp.interpreter.OperatorInterpreter;
 import com.lianrf.tierexp.interpreter.ParensInterpreter;
 import com.lianrf.tierexp.interpreter.VarInterpreter;
+import com.lianrf.tierexp.parser.TierExpParser;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.util.function.BiFunction;
 
 /**
@@ -19,9 +24,12 @@ import java.util.function.BiFunction;
  */
 public class SimpleInterpreterFactory implements InterpreterFactory {
 
+    private static final Class<?>[] OP_CLASS = {Token.class, TierExpParser.ExprContext.class};
+
     @Override
     public Interpreter create(ParseTree tree) {
-        String name = tree.getClass().getName();
+        Class<? extends ParseTree> treeClass = tree.getClass();
+        String name = treeClass.getName();
 
         if ("com.lianrf.tierexp.parser.TierExpParser$ExprIdContext".equals(name)) {
             return new VarInterpreter(tree);
@@ -32,16 +40,34 @@ public class SimpleInterpreterFactory implements InterpreterFactory {
         if ("com.lianrf.tierexp.parser.TierExpParser$ExprLiteralsContext".equals(name)) {
             return new ConstInterpreter(tree);
         }
-        if ("com.lianrf.tierexp.parser.TierExpParser$ExprAddSubContext".equals(name)) {
-            return new CentreInterpreter(tree);
-        }
         if ("com.lianrf.tierexp.parser.TierExpParser$ExprIndexContext".equals(name)) {
             return new IndexInterpreter(tree);
         }
 
+        VarHandle varHandle = getVarHandle(tree, treeClass);
+        Object opO = varHandle.get(tree);
 
-        return new ConstInterpreter();
+        return new OperatorInterpreter(opO,tree);
 
+    }
+
+    private VarHandle getVarHandle(ParseTree tree, Class<? extends ParseTree> treeClass) {
+        MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+        VarHandle varHandle = null;
+        for (Class<?> aClass : OP_CLASS) {
+            try {
+                varHandle = lookup.findVarHandle(treeClass, "op", aClass);
+                break;
+            } catch (NoSuchFieldException e) {
+                //todo
+            } catch (IllegalAccessException e) {
+                throw new TierParseException(e.getMessage(), e);
+            }
+        }
+        if(varHandle==null){
+            throw new TierParseException("未知的解释器:"+ tree);
+        }
+        return varHandle;
     }
 
     class TreeMapIter {

@@ -1,6 +1,8 @@
 package com.lianrf.tierexp;
 
 import com.lianrf.tierexp.context.ExpContext;
+import com.lianrf.tierexp.exception.TierParseException;
+import com.lianrf.tierexp.exception.TierRunException;
 
 /**
  * 脚本执行引擎
@@ -16,7 +18,7 @@ public interface TierExpEngine {
      * @param exp 表达式
      * @return result
      */
-    Object run(String exp);
+    Object run(String exp) throws TierRunException, TierParseException;
 
     /**
      * 使用指定的引擎上下文执行表达式，获取结果
@@ -25,8 +27,8 @@ public interface TierExpEngine {
      * @param ctx 引擎上下文
      * @return result
      */
-    Object run(String exp, ExpContext ctx);
+    Object run(String exp, ExpContext ctx) throws TierRunException, TierParseException;
 
 
-    InstructionNode parse(String exp);
+    InstructionNode parse(String exp) throws TierParseException;
 }

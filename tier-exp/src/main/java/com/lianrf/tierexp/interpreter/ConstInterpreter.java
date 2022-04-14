@@ -8,8 +8,6 @@ import com.lianrf.tierexp.parser.TierExpParser;
 import com.lianrf.tierexp.parser.TierExpVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.math.BigDecimal;
-
 public class ConstInterpreter implements Interpreter {
 
     private Object value;

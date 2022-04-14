@@ -52,7 +52,7 @@ expr locals[Interpreter interpreter]
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprAttr
     | expr '[' expr ']'
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprIndex
-    | expr '(' exprList? ')'
+    | op=expr '(' exprList? ')'
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprCall
     | expr '(' exprList?
         {notifyErrorListeners(ErrorMessage.getError1());}                   # ExprCallError1
@@ -60,19 +60,19 @@ expr locals[Interpreter interpreter]
         {notifyErrorListeners(ErrorMessage.getError2());}                   # ExprCallError2
     | ('+'|'-') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprNegate
-    | '!' expr
+    | op='!' expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprNot
-    | expr 'mod' expr
+    | expr op='mod' expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprMod
-    | expr ('*'|'/') expr
+    | expr op=('*'|'/') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprMultDiv
-    | expr ('+'|'-') expr
+    | expr op=('+'|'-') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprAddSub
-    | expr ('<='|'>='|'>'|'<') expr
+    | expr op=('<='|'>='|'>'|'<') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprCondition1
-    | expr ('='|'!='|'<>') expr
+    | expr op=('='|'!='|'<>') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprCondition2
-    | expr ('&&'|'||') expr
+    | expr op=('&&'|'||') expr
         {$interpreter=interpreterFactor.create($ctx);}                      # ExprAndOr
     ;
 

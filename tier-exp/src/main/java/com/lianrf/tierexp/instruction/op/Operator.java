@@ -27,7 +27,18 @@ public interface Operator {
 
     /**
      * 获取解析树class
+     *
      * @return class
      */
     Class<? extends ParseTree> getTreeClass();
+
+    boolean isPrecise();
+
+    void setPrecise(boolean precise);
+
+    String getAliasName();
+
+    void setAliasName(String aliasName);
+
+    void check();
 }

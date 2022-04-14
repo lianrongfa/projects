@@ -16,7 +16,7 @@ public class MapContext implements ExpContext {
     public MapContext(Map<String, Object> map) {
         if (map != null) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                this.set(entry.getKey(), entry.getValue());
+                this.put(entry.getKey(), entry.getValue());
             }
         }
     }
@@ -33,7 +33,7 @@ public class MapContext implements ExpContext {
     }
 
     @Override
-    public void set(String name, Object value) {
+    public void put(String name, Object value) {
         // 如果变量已经存在，就不再重复创建变量。
         Var obj = getVar(name);
         if (obj != null) {

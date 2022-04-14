@@ -38,7 +38,6 @@ public class IndexInterpreter implements Interpreter {
 
         INDEX_SET.add(TierExpParser.ExprIdContext.class);
         INDEX_SET.add(TierExpParser.ExprLiteralsContext.class);
-
     }
 
     private ParseTree first;
