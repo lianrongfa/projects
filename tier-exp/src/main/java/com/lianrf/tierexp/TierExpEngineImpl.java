@@ -30,15 +30,15 @@ public class TierExpEngineImpl implements TierExpEngine {
      */
     private OperatorManager opManager;
 
-    public TierExpEngineImpl() {
-        this(new ContextChain(null, new MapContext()));
+    public TierExpEngineImpl(boolean isPrecise) {
+        this(isPrecise,new ContextChain(null, new MapContext()));
     }
 
-    public TierExpEngineImpl(ExpContext context) {
+    public TierExpEngineImpl(boolean isPrecise,ExpContext context) {
         this.context = context;
         this.parser = new ArParser(null, this);
         this.visitor = TierVisitor.create();
-        this.opManager = new OperatorManager(true);
+        this.opManager = new OperatorManager(isPrecise);
     }
 
 
