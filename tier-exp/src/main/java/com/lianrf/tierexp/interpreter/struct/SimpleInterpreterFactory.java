@@ -4,6 +4,7 @@ import com.lianrf.tierexp.exception.TierParseException;
 import com.lianrf.tierexp.interpreter.ConstInterpreter;
 import com.lianrf.tierexp.interpreter.IndexInterpreter;
 import com.lianrf.tierexp.interpreter.Interpreter;
+import com.lianrf.tierexp.interpreter.NegateInterpreter;
 import com.lianrf.tierexp.interpreter.OperatorInterpreter;
 import com.lianrf.tierexp.interpreter.ParensInterpreter;
 import com.lianrf.tierexp.interpreter.VarInterpreter;
@@ -43,6 +44,9 @@ public class SimpleInterpreterFactory implements InterpreterFactory {
         if ("com.lianrf.tierexp.parser.TierExpParser$ExprIndexContext".equals(name)) {
             return new IndexInterpreter(tree);
         }
+        if ("com.lianrf.tierexp.parser.TierExpParser$ExprNegateContext".equals(name)) {
+            return new NegateInterpreter(tree);
+        }
 
         VarHandle varHandle = getVarHandle(tree, treeClass);
         Object opO = varHandle.get(tree);
@@ -59,7 +63,7 @@ public class SimpleInterpreterFactory implements InterpreterFactory {
                 varHandle = lookup.findVarHandle(treeClass, "op", aClass);
                 break;
             } catch (NoSuchFieldException e) {
-                //todo
+                //todo 可暂不处理
             } catch (IllegalAccessException e) {
                 throw new TierParseException(e.getMessage(), e);
             }

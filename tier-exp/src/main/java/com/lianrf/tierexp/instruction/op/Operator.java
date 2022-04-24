@@ -22,7 +22,7 @@ public interface Operator {
     String getName();
 
 
-    Object call(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor);
+    Object call(ExpContext<String,Object>  context, ParseTree node, TierExpVisitor<Object> visitor);
 
 
     /**

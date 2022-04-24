@@ -16,7 +16,13 @@ public class TierRunException extends TierException {
         super(message);
     }
 
+    public TierRunException(Throwable cause) {
+        super(cause);
+    }
+
     public TierRunException(String message, Throwable cause) {
         super(message, cause);
     }
+
+
 }

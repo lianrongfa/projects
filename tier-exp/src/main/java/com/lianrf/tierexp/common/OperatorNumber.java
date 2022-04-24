@@ -149,6 +149,10 @@ public abstract class OperatorNumber {
         }
     }
 
+    public static Object modulo(Object op1, Object op2) {
+        return NormalNumberOperator.moduloNormal((Number) op1, (Number) op2);
+    }
+
     /**
      * 获取数据类型精度顺序
      *
@@ -304,6 +308,17 @@ public abstract class OperatorNumber {
                         , PreciseNumberOperator.SCALE_SIZE, RoundingMode.HALF_UP);
             }
             throw new TierRunException("不支持的对象执行了'/'操作");
+        }
+
+        public static Number moduloNormal(Number op1, Number op2) {
+            int type1 = OperatorNumber.getSeq(op1.getClass());
+            int type2 = OperatorNumber.getSeq(op2.getClass());
+            int type = Math.max(type1, type2);
+            if (type == NUMBER_TYPE_BYTE) return op1.byteValue() % op2.byteValue();
+            if (type == NUMBER_TYPE_SHORT) return op1.shortValue() % op2.shortValue();
+            if (type == NUMBER_TYPE_INT) return op1.intValue() % op2.intValue();
+            if (type == NUMBER_TYPE_LONG) return op1.longValue() % op2.longValue();
+            throw new TierRunException("不支持的对象执行了\"mod\"操作");
         }
     }
 

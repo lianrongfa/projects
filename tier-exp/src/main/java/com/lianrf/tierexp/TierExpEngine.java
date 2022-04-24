@@ -13,22 +13,29 @@ import com.lianrf.tierexp.exception.TierRunException;
  */
 public interface TierExpEngine {
     /**
-     * 执行表达式，获取结果
-     *
-     * @param exp 表达式
-     * @return result
-     */
-    Object run(String exp) throws TierRunException, TierParseException;
-
-    /**
-     * 使用指定的引擎上下文执行表达式，获取结果
+     * 计算表达式结果
      *
      * @param exp 表达式
      * @param ctx 引擎上下文
      * @return result
      */
-    Object run(String exp, ExpContext ctx) throws TierRunException, TierParseException;
+    Object run(String exp, ExpContext<String, Object> ctx) throws TierRunException, TierParseException;
 
 
+    /**
+     * 解析表达式为指令
+     *
+     * @param exp 表达式
+     * @return 指令
+     */
     InstructionNode parse(String exp) throws TierParseException;
+
+    /**
+     * 计算表达式结果
+     *
+     * @param instructionNode 指令
+     * @param ctx             context
+     * @return Object
+     */
+    Object run(InstructionNode instructionNode, ExpContext<String, Object> ctx) throws TierRunException, TierParseException;
 }

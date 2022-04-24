@@ -12,7 +12,9 @@ public class TierException extends RuntimeException {
     public TierException() {
     }
 
-
+    public TierException(Throwable cause) {
+        super(cause);
+    }
 
     public TierException(String message) {
         super(message);

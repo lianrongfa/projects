@@ -1,11 +1,12 @@
 package com.lianrf.tierexp.interpreter;
 
-import com.lianrf.tierexp.RunEnvironment;
+import com.lianrf.tierexp.TierExpEngineImpl;
 import com.lianrf.tierexp.context.ExpContext;
 import com.lianrf.tierexp.exception.TierRunException;
 import com.lianrf.tierexp.instruction.OperatorManager;
 import com.lianrf.tierexp.instruction.op.Operator;
 import com.lianrf.tierexp.parser.TierExpVisitor;
+import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -24,18 +25,33 @@ public class OperatorInterpreter implements Interpreter {
     private ParseTree node;
 
     public OperatorInterpreter(Object opO, ParseTree node) {
+        if (opO instanceof CommonToken) {
+            CommonToken token = (CommonToken) opO;
+            String text = token.getText();
+            token.setText(text);
+        }
         this.opO = opO;
         this.node = node;
     }
 
     @Override
-    public Object interpret(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor) {
-        RunEnvironment environment = RunEnvironment.get();
-        OperatorManager manager = environment.getEngine().getOpManager();
+    public Object interpret(ExpContext<String, Object> context, ParseTree node, TierExpVisitor<Object> visitor) {
+        TierExpEngineImpl engine = context.getEngine();
+        if (engine == null) {
+            throw new TierRunException("未获取到计算引擎");
+        }
+        OperatorManager opManager = engine.getOpManager();
+        if (opManager == null) {
+            throw new TierRunException("未获取到OperatorManager");
+        }
 
         String name = getName(this.opO);
 
-        Operator operator = manager.getOperator(name);
+        Operator operator = opManager.getOperator(name);
+
+        if(operator==null){
+            throw new TierRunException(String.format("未知的函数%s",name));
+        }
 
         return operator.call(context, node, visitor);
     }
@@ -44,8 +60,7 @@ public class OperatorInterpreter implements Interpreter {
     private String getName(Object opO) {
         String name;
         if (opO instanceof ParserRuleContext) {
-            //todo 类方法调用
-            throw new TierRunException("类方法调用尚未实现");
+            return OperatorManager.SYSTEM_PREFIX+opO.getClass().getSimpleName();
         } else if (opO instanceof Token) {
             name = ((Token) opO).getText();
         } else {

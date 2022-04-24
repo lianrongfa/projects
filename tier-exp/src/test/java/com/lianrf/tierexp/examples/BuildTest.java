@@ -1,12 +1,12 @@
 package com.lianrf.tierexp.examples;
 
-import cn.hutool.core.date.StopWatch;
+import com.greenpineyu.fel.FelEngine;
+import com.greenpineyu.fel.parser.FelNode;
 import com.lianrf.tierexp.InstructionNode;
 import com.lianrf.tierexp.TierExpEngineImpl;
-import com.lianrf.tierexp.context.MapContext;
+import com.lianrf.tierexp.context.DefaultContext;
 import com.lianrf.tierexp.parser.TierExpLexer;
 import com.lianrf.tierexp.parser.TierExpParser;
-import com.ql.util.express.DefaultContext;
 import com.ql.util.express.ExpressRunner;
 import com.ql.util.express.InstructionSet;
 import org.antlr.v4.runtime.CharStreams;
@@ -16,7 +16,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import java.util.Random;
 
 /**
- * TODO
+ * test
  *
  * @author lianrf
  * @version 1.0
@@ -27,31 +27,53 @@ public class BuildTest {
     public static void main(String[] args) throws Exception {
 
 //        System.out.println("_8d19dd61161741e49b33103dfd68d0cb".length());
-        String exp = "a+b-c*d/b";
+        String exp = "(a+b)*c+d+a+b+c-a*c+a+c+d*c/a+d";
 
-        TierExpEngineImpl engine = new TierExpEngineImpl();
+        TierExpEngineImpl engine = new TierExpEngineImpl(false);
         InstructionNode instructionNode = engine.parse(exp);
-        ExpressRunner runner = new ExpressRunner(true, false);
+
+        ExpressRunner runner = new ExpressRunner(false, false);
         InstructionSet instructionSet = runner.parseInstructionSet(exp);
+
+        FelNode felNode = FelEngine.instance.parse(exp);
+
 
         double a = 3, b = 4, c = 5.35, d = 5.318;
 
-        StopWatch stopWatch = new StopWatch("statistics");
-        MapContext map = new MapContext();
-        DefaultContext<String, Object> context = new DefaultContext<String, Object>();
+        DefaultContext map = new DefaultContext();
+        com.ql.util.express.DefaultContext context = new com.ql.util.express.DefaultContext();
+
+        com.greenpineyu.fel.context.MapContext felContext = new com.greenpineyu.fel.context.MapContext();
 
         Random random = new Random(50);
 
+        int size = 100000;
 
+        long l = System.nanoTime();
 
+        for (int i = 0; i < size; i++) {
 
-        int size = 100;
+            double v = random.nextDouble();
+            a = a + v;
+            b = b + v;
+            c = c + v;
+            d = d + v;
+            fel(FelEngine.instance, felNode, a, b, c, d, felContext);
+        }
+        System.out.println("f avg:"+(System.nanoTime()-l)/size);
 
+        long m = System.nanoTime();
+        for (int i = 0; i < size; i++) {
+            double v = random.nextDouble();
+            a = a + v;
+            b = b + v;
+            c = c + v;
+            d = d + v;
+            tier(engine, instructionNode, a, b, c, d, map);
+        }
+        System.out.println("t avg:"+(System.nanoTime()-m)/size);
 
-
-
-
-        stopWatch.start("ql-express");
+        long n = System.nanoTime();
         for (int i = 0; i < size; i++) {
 
             double v = random.nextDouble();
@@ -61,25 +83,38 @@ public class BuildTest {
             d = d + v;
             ql(runner, instructionSet, a, b, c, d, context);
         }
-        stopWatch.stop();
+        System.out.println("q avg:"+(System.nanoTime()-n)/size);
 
 
-        stopWatch.start("tier-exp");
+        long x = System.nanoTime();
         for (int i = 0; i < size; i++) {
+
             double v = random.nextDouble();
             a = a + v;
             b = b + v;
             c = c + v;
             d = d + v;
-            tier(engine, instructionNode, a, b, c, d, map);
-        }
-        stopWatch.stop();
 
-        System.out.println(stopWatch.prettyPrint());
+            double v1 = a + b - c * d / b;
+        }
+
+        System.out.println("s avg:"+(System.nanoTime()-x)/size);
+
 
     }
 
-    private static void tier(TierExpEngineImpl engine, InstructionNode instructionNode, double a, double b, double c, double d, MapContext map) {
+    private static void fel(FelEngine instance, FelNode felNode, double a, double b, double c, double d, com.greenpineyu.fel.context.MapContext felContext) {
+        felContext.set("a", a);
+        felContext.set("b", b);
+        felContext.set("c", c);
+        felContext.set("d", d);
+
+        felNode.eval(felContext);
+
+    }
+
+
+    private static void tier(TierExpEngineImpl engine, InstructionNode instructionNode, double a, double b, double c, double d, DefaultContext map) {
         map.put("a", a);
         map.put("b", b);
         map.put("c", c);
@@ -87,7 +122,7 @@ public class BuildTest {
         engine.run(instructionNode, map);
     }
 
-    private static void ql(ExpressRunner runner, InstructionSet instructionSet, double a, double b, double c, double d, DefaultContext<String, Object> context) throws Exception {
+    private static void ql(ExpressRunner runner, InstructionSet instructionSet, double a, double b, double c, double d, com.ql.util.express.DefaultContext context) throws Exception {
         context.put("a", a);
         context.put("b", b);
         context.put("c", c);

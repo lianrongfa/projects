@@ -49,7 +49,7 @@ public class IndexInterpreter implements Interpreter {
         if (FIRST_SET.contains(symbol.getClass())) {
             this.first = symbol;
         } else {
-            //todo
+            //todo 异常提示
             throw new TierParseException();
         }
 
@@ -58,7 +58,7 @@ public class IndexInterpreter implements Interpreter {
         if (INDEX_SET.contains(idClass)) {
             literal(id, idClass);
         } else {
-            //todo
+            //todo 异常提示
             throw new TierParseException();
         }
     }
@@ -75,7 +75,7 @@ public class IndexInterpreter implements Interpreter {
     }
 
     @Override
-    public Object interpret(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor) {
+    public Object interpret(ExpContext<String, Object> context, ParseTree node, TierExpVisitor<Object> visitor) {
         Object result1 = visitor.visit(this.first);
 
         Object result2 = visitor.visit(this.index);

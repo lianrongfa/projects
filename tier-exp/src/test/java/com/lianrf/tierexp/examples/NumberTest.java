@@ -1,11 +1,10 @@
 package com.lianrf.tierexp.examples;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
 /**
- * TODO
+ * NumberTest
  *
  * @author lianrf
  * @version 1.0
@@ -14,6 +13,7 @@ import java.text.ParseException;
 public class NumberTest {
     public static void main(String[] args) throws ParseException {
 
+        System.out.println(13/2+1);
 
 //        NumberFormat instance = DecimalFormat.getInstance();
         NumberFormat instance = NumberFormat.getPercentInstance();

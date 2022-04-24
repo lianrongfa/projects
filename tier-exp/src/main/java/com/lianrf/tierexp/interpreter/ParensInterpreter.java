@@ -18,7 +18,7 @@ public class ParensInterpreter implements Interpreter {
     }
 
     @Override
-    public Object interpret(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor) {
+    public Object interpret(ExpContext<String,Object> context, ParseTree node, TierExpVisitor<Object> visitor) {
         return visitor.visit(this.node);
     }
 }

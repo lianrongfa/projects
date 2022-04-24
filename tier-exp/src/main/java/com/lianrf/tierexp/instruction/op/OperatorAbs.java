@@ -1,12 +1,12 @@
 package com.lianrf.tierexp.instruction.op;
 
+import com.lianrf.tierexp.common.ArrayUtil;
 import com.lianrf.tierexp.context.ExpContext;
 import com.lianrf.tierexp.parser.TierExpVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * Operator基类
@@ -32,19 +32,32 @@ public abstract class OperatorAbs implements Operator {
     }
 
     @Override
-    public Object call(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor) {
+    public Object call(ExpContext<String, Object> context, ParseTree node, TierExpVisitor<Object> visitor) {
+        return call(getObjects(node, visitor));
+    }
 
-        List<Object> list = new ArrayList<>();
+    protected Object[] getObjects(ParseTree node, TierExpVisitor<Object> visitor) {
         int count = node.getChildCount();
+        int idx = 0;
+
+        int size = count - 1;
+        if(size<=0){
+            return ArrayUtil.EMP_ARR;
+        }
+
+        Object[] objects = new Object[size];
         for (int i = 0; i < count; i++) {
             ParseTree tree = node.getChild(i);
             if (!(tree instanceof TerminalNode)) {
                 Object o = visitor.visit(tree);
-                list.add(o);
+                objects[idx] = o;
+                idx++;
             }
         }
-
-        return call(list.toArray());
+        if(idx==size){
+            return objects;
+        }
+        return Arrays.copyOfRange(objects, 0, idx);
     }
 
     @Override

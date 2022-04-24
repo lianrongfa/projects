@@ -7,6 +7,7 @@ package com.lianrf.tierexp.parser;
  * @version 1.0
  * @since 2022/2/24 3:13 下午
  */
+
 public class Configuration {
 
     /**
@@ -26,10 +27,44 @@ public class Configuration {
 
 
 
+    private Configuration(Builder builder) {
+        isTrace = builder.isTrace;
+        isShortCircuit = builder.isShortCircuit;
+        isPrecise = builder.isPrecise;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
 
 
+    public static final class Builder {
+        private boolean isTrace;
+        private boolean isShortCircuit;
+        private boolean isPrecise;
 
+        private Builder() {
+        }
 
+        public Builder isTrace(boolean val) {
+            isTrace = val;
+            return this;
+        }
+
+        public Builder isShortCircuit(boolean val) {
+            isShortCircuit = val;
+            return this;
+        }
+
+        public Builder isPrecise(boolean val) {
+            isPrecise = val;
+            return this;
+        }
+
+        public Configuration build() {
+            return new Configuration(this);
+        }
+    }
 
     public boolean isTrace() {
         return isTrace;

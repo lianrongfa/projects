@@ -1,9 +1,7 @@
 package com.lianrf.tierexp.examples;
 
-import com.lianrf.tierexp.RunEnvironment;
-
 /**
- * TODO
+ * ThDemo
  *
  * @author lianrf
  * @version 1.0
@@ -12,24 +10,9 @@ import com.lianrf.tierexp.RunEnvironment;
 public class ThDemo {
     public static void main(String[] args) {
 
+        char data[] = {'a', 'b', 'c'};
+        String str = new String(data);
 
-        RunEnvironment runEnvironment = RunEnvironment.get();
-
-        System.out.println(runEnvironment);
-
-        RunEnvironment runEnvironment2 = RunEnvironment.get();
-
-        System.out.println(runEnvironment2);
-
-
-
-        RunEnvironment.clear();
-
-        RunEnvironment ss = RunEnvironment.get();
-
-        System.out.println(ss)
-
-        ;
-        
+        System.out.println();
     }
 }

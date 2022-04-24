@@ -10,6 +10,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public interface Interpreter {
 
-    Object interpret(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor);
+    Object interpret(ExpContext<String, Object> context, ParseTree node, TierExpVisitor<Object> visitor);
 
 }

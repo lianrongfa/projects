@@ -20,7 +20,9 @@ public class ConstInterpreter implements Interpreter {
 
         String text = child.getText();
 
-        Configuration cfg = new Configuration();
+
+        // todo config 获取
+        Configuration cfg = Configuration.newBuilder().build();
 
         if (child instanceof TierExpParser.NumContext) {
             if (cfg.isPrecise()) {
@@ -33,12 +35,12 @@ public class ConstInterpreter implements Interpreter {
         }
     }
 
-    public ConstInterpreter(ExpContext context, ParseTree node) {
+    public ConstInterpreter(ExpContext<String, Object> context, ParseTree node) {
 
     }
 
     @Override
-    public Object interpret(ExpContext context, ParseTree node, TierExpVisitor<Object> visitor) {
+    public Object interpret(ExpContext<String, Object> context, ParseTree node, TierExpVisitor<Object> visitor) {
         return value;
     }
 
